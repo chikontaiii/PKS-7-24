@@ -7,141 +7,56 @@
     <title>Родителям | ПКС-7-24</title>
     <link rel="icon" type="image/png" href="фото/IMG_1754.PNG">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-        }
-        
-        nav {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
-        
-        .nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-        
-        .nav a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-        
-        .nav a:hover {
-            background: #667eea;
-            color: white;
-        }
-        
-        .nav a.active {
-            background: #667eea;
-            color: white;
-        }
+        /* Родительский доступ */
         
         .parent-access {
-            max-width: 1200px;
-            margin: 2rem auto;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 3rem;
+            background: linear-gradient(135deg, #1E2B3A 0%, #2C3E4F 100%);
+            color: white;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-        
-        .fade-in {
-            animation: fadeIn 1s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            padding: 3rem;
+            margin: 3rem 0;
         }
         
         .parent-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             margin-top: 2rem;
         }
         
         .parent-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .parent-card:hover {
-            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .parent-card h4 {
-            font-size: 1.5rem;
+            font-family: 'Playfair Display', serif;
             margin-bottom: 1rem;
-            color: #333;
-        }
-        
-        .parent-card p {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
+            color: #D4AF37;
         }
         
         .parent-contact {
-            border-top: 2px solid #f0f0f0;
-            padding-top: 1rem;
-        }
-        
-        .parent-contact span {
-            color: #667eea;
-            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            margin-top: 1rem;
+            color: rgba(255, 255, 255, 0.8);
         }
         
-        .btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        @media (max-width: 768px) {
+            .parent-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            .parent-access {
+                padding: 1.5rem !important;
+            }
+            .parent-access h3 {
+                font-size: 1.5rem !important;
+            }
         }
     </style>
 </head>
