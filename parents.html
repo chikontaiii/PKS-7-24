@@ -6,7 +6,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Родителям | ПКС-7-24</title>
     <link rel="icon" type="image/png" href="фото/IMG_1754.PNG">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* Гарвардский стиль - премиальный минимализм */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F8F7F4;
+            color: #2C3E4F;
+            line-height: 1.6;
+        }
+        /* Премиальный контейнер */
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+        /* Header в стиле Harvard */
+        
+        .header {
+            background: linear-gradient(135deg, #1E2B3A 0%, #2C3E4F 100%);
+            color: white;
+            padding: 2rem 0;
+            border-bottom: 4px solid #A51C30;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #A51C30, #D4AF37, #A51C30);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .site-logo {
+            width: 60px;
+            height: auto;
+            object-fit: contain;
+        }
+        
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.25rem;
+            color: white;
+        }
+        
+        .logo h1 span {
+            color: #D4AF37;
+            font-weight: 400;
+            font-style: italic;
+        }
+        
+        .logo p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        /* Навигация */
+        
+        .nav {
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            padding: 1rem 0;
+        }
+        
+        .nav a {
+            text-decoration: none;
+            color: #2C3E4F;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #A51C30;
+            transition: width 0.3s;
+        }
+        
+        .nav a:hover::after,
+        .nav a.active::after {
+            width: 100%;
+        }
+        
+        .nav a:hover,
+        .nav a.active {
+            color: #A51C30;
+        }
         /* Родительский доступ */
         
         .parent-access {
@@ -14,7 +144,8 @@
             color: white;
             border-radius: 20px;
             padding: 3rem;
-            margin: 3rem 0;
+            margin: 3rem auto;
+            max-width: 1200px;
         }
         
         .parent-grid {
@@ -30,12 +161,25 @@
             border-radius: 16px;
             padding: 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .parent-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
         
         .parent-card h4 {
             font-family: 'Playfair Display', serif;
             margin-bottom: 1rem;
             color: #D4AF37;
+            font-size: 1.5rem;
+        }
+        
+        .parent-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
         
         .parent-contact {
@@ -44,24 +188,132 @@
             gap: 0.5rem;
             margin-top: 1rem;
             color: rgba(255, 255, 255, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 1rem;
+        }
+        
+        .parent-contact span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* Кнопки */
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: #A51C30;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #8B1829;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(165, 28, 48, 0.3);
+        }
+        /* Анимации */
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        /* Адаптивность */
+        
+        @media (max-width: 1200px) {
+            .parent-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
         @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            .logo {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav ul {
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
             .parent-grid {
-                grid-template-columns: 1fr !important;
-                gap: 1rem !important;
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
             .parent-access {
-                padding: 1.5rem !important;
+                padding: 1.5rem;
+                margin: 1.5rem;
             }
             .parent-access h3 {
-                font-size: 1.5rem !important;
+                font-size: 1.5rem;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            .parent-card h4 {
+                font-size: 1.2rem;
             }
         }
     </style>
 </head>
 
 <body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="фото/IMG_1754.PNG" alt="ПКС-7-24" class="site-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h1>ПКС-7-24 <span>• Harvard Style</span></h1>
+                        <p>Программирование в компьютерных системах</p>
+                    </div>
+                </div>
+                <div class="student-info">
+                    <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Student" class="profile-pic" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #D4AF37;">
+                    <div class="student-info-text">
+                        <div class="name">Иванов Иван</div>
+                        <div class="role">Староста</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Навигация -->
     <nav class="nav">
         <div class="container">
             <ul>
@@ -77,39 +329,51 @@
         </div>
     </nav>
 
-    <div class="parent-access fade-in" id="parents">
-        <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; color: #333;">👪 Родительский портал</h3>
-        <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; color: #666;">Следите за академическими успехами вашего студента</p>
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="parent-access fade-in" id="parents">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; color: white;">👪 Родительский портал</h3>
+            <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; color: rgba(255,255,255,0.8);">Следите за академическими успехами вашего студента</p>
 
-        <div class="parent-grid">
-            <div class="parent-card">
-                <h4>📊 Успеваемость</h4>
-                <p>Просмотр оценок, посещаемости и статуса обучения</p>
-                <div class="parent-contact">
-                    <span>🔐 Безопасный доступ</span>
+            <div class="parent-grid">
+                <div class="parent-card">
+                    <h4>📊 Успеваемость</h4>
+                    <p>Просмотр оценок, посещаемости и статуса обучения в реальном времени</p>
+                    <div class="parent-contact">
+                        <span>🔐 Безопасный доступ</span>
+                    </div>
+                </div>
+
+                <div class="parent-card">
+                    <h4>📢 Объявления</h4>
+                    <p>Важные новости, родительские собрания и обновления от администрации</p>
+                    <div class="parent-contact">
+                        <span>📧 Подписаться на рассылку</span>
+                    </div>
+                </div>
+
+                <div class="parent-card">
+                    <h4>📞 Контакты</h4>
+                    <p>Куратор группы: Бардыгулова Н.Д.</p>
+                    <p style="font-size: 0.9rem;">Преподаватель спецдисциплин</p>
+                    <div class="parent-contact">
+                        <span>📞 +996 703 408 966</span>
+                    </div>
+                    <div class="parent-contact">
+                        <span>✉️ bardygulova@college.kg</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="parent-card">
-                <h4>📢 Объявления</h4>
-                <p>Важные новости и обновления от администрации</p>
-                <div class="parent-contact">
-                    <span>📧 Подписаться на рассылку</span>
-                </div>
-            </div>
-
-            <div class="parent-card">
-                <h4>📞 Контакты</h4>
-                <p>Куратор: Бардыгулова Н.Д.</p>
-                <div class="parent-contact">
-                    <span>📞 +996 703 408 966</span>
-                </div>
+            <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+                <button class="btn btn-primary">
+                    Запросить доступ для родителей →
+                </button>
+                <button class="btn" style="background: transparent; border: 2px solid #D4AF37; color: white;">
+                    Часто задаваемые вопросы
+                </button>
             </div>
         </div>
-
-        <button class="btn" style="margin-top: 2rem;">
-            Запросить доступ для родителей →
-        </button>
     </div>
 </body>
 
