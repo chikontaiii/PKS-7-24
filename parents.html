@@ -291,6 +291,25 @@
 </head>
 
 <body>
+    <div id="login-screen" class="login-overlay active">
+        <div class="login-card">
+            <img src="фото/IMG_1754.PNG" alt="Логотип" style="width: 80px; margin-bottom: 1rem;">
+            <h2>Вход на портал</h2>
+            <p class="subtitle">Группа ПКС-7-24</p>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email-input" placeholder="Введите ваш email">
+            </div>
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label>Пароль</label>
+                <input type="password" id="password-input" placeholder="Введите пароль">
+            </div>
+
+            <button id="login-btn" class="btn btn-primary" style="width: 100%;">Войти</button>
+            <p id="login-error">Неверный email или пароль</p>
+        </div>
+    </div>
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -336,6 +355,11 @@
             <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; color: rgba(255,255,255,0.8);">Следите за академическими успехами вашего студента</p>
 
             <div class="parent-grid">
+                <!-- Внутри .parent-access, например после .parent-grid -->
+                <div id="warnings-container" style="margin-top: 2rem;">
+                    <h4 style="color: #D4AF37; margin-bottom: 1rem;">⚠️ Последние предупреждения</h4>
+                    <div id="warnings-list"></div>
+                </div>
                 <div class="parent-card">
                     <h4>📊 Успеваемость</h4>
                     <p>Просмотр оценок, посещаемости и статуса обучения в реальном времени</p>
@@ -363,6 +387,7 @@
                         <span>✉️ bardygulova@college.kg</span>
                     </div>
                 </div>
+
             </div>
 
             <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
@@ -375,7 +400,13 @@
             </div>
         </div>
     </div>
+    <!-- В самом конце parents.html, перед </body> -->
+    <div id="login-screen" class="login-overlay active">
+        <!-- тот же код, что и в index.html -->
+    </div>
+    <div id="app-content"> </div>
     <script type="module" src="app.js"></script>
+    <script type="module" src="parents.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Админка | ПКС-7-24</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: #F8F7F4;
+            padding: 2rem;
+        }
+        
+        .admin-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .admin-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        h2 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #F0F0F0;
+            border-radius: 8px;
+        }
+        
+        .btn {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <div class="admin-card">
+            <h2>📚 Добавить домашнее задание</h2>
+            <div class="form-group">
+                <label>Предмет</label>
+                <input type="text" id="hw-subject" placeholder="Например: Программирование">
+            </div>
+            <div class="form-group">
+                <label>Задание</label>
+                <textarea id="hw-task" rows="2" placeholder="Описание задания"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Дедлайн</label>
+                <input type="date" id="hw-deadline">
+            </div>
+            <div class="form-group">
+                <label>Ответственный (студент)</label>
+                <input type="text" id="hw-responsible" placeholder="ФИО или ник">
+            </div>
+            <button class="btn btn-primary" onclick="addHomework()">Добавить ДЗ</button>
+        </div>
+
+        <div class="admin-card">
+            <h2>⚠️ Добавить предупреждение</h2>
+            <div class="form-group">
+                <label>Студент</label>
+                <input type="text" id="warn-student" placeholder="ФИО студента">
+            </div>
+            <div class="form-group">
+                <label>Предупреждение / причина</label>
+                <textarea id="warn-text" rows="2" placeholder="Например: Опоздание на пару"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="addWarning()">Добавить предупреждение</button>
+        </div>
+    </div>
+
+    <script type="module" src="admin.js"></script>
+</body>
+
+</html>
