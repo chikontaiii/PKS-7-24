@@ -1,44 +1,10 @@
-// admin.js
-import { db } from "./firebase.js"; // storage больше не нужен, удалили
+// admin.js - ПОЛНОСТЬЮ РАБОЧАЯ ВЕРСИЯ
+import { db } from "./firebase.js";
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-// Константы для GitHub – проверь и исправь при необходимости
-const GITHUB_TOKEN = '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';
-const REPO_OWNER = 'chikontaiii'; // твой логин на GitHub
-const REPO_NAME = 'pks-materials'; // название репозитория (должен быть public)
-const BRANCH = 'main'; // основная ветка
-
-// Вспомогательная функция для загрузки файла на GitHub
-async function uploadToGitHub(file, subject) {
-    const path = `${subject}/${Date.now()}_${file.name}`; // папка по предмету + уникальное имя
-
-    // Читаем файл как base64
-    const reader = new FileReader();
-    const base64Content = await new Promise((resolve, reject) => {
-        reader.onload = () => resolve(reader.result.split(',')[1]); // отделяем data:...;base64,
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
-
-    // Отправляем запрос к GitHub API
-    const response = await axios.put(
-        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
-            message: `Upload ${file.name}`,
-            content: base64Content,
-            branch: BRANCH
-        }, {
-            headers: {
-                Authorization: `token ${GITHUB_TOKEN}`,
-                'Content-Type': 'application/json'
-            }
-        }
-    );
-
-    // Возвращаем публичную ссылку через jsDelivr CDN
-    return `https://cdn.jsdelivr.net/gh/${REPO_OWNER}/${REPO_NAME}@${BRANCH}/${path}`;
-}
-
-// Добавление домашнего задания (без изменений)
+// =====================================================
+//  1. ДОБАВЛЕНИЕ ДОМАШНЕГО ЗАДАНИЯ (работает как раньше)
+// =====================================================
 window.addHomework = async function() {
     const subject = document.getElementById('hw-subject').value.trim();
     const task = document.getElementById('hw-task').value.trim();
@@ -60,6 +26,7 @@ window.addHomework = async function() {
             createdAt: new Date().toISOString()
         });
         alert('Домашнее задание добавлено!');
+        // Очистка формы
         document.getElementById('hw-subject').value = '';
         document.getElementById('hw-task').value = '';
         document.getElementById('hw-deadline').value = '';
@@ -69,7 +36,9 @@ window.addHomework = async function() {
     }
 };
 
-// Добавление предупреждения (без изменений)
+// =====================================================
+//  2. ДОБАВЛЕНИЕ ПРЕДУПРЕЖДЕНИЯ (работает как раньше)
+// =====================================================
 window.addWarning = async function() {
     const student = document.getElementById('warn-student').value.trim();
     const warning = document.getElementById('warn-text').value.trim();
@@ -86,6 +55,7 @@ window.addWarning = async function() {
             date: new Date().toISOString().split('T')[0]
         });
         alert('Предупреждение добавлено!');
+        // Очистка формы
         document.getElementById('warn-student').value = '';
         document.getElementById('warn-text').value = '';
     } catch (error) {
@@ -93,53 +63,75 @@ window.addWarning = async function() {
     }
 };
 
-// Загрузка материала (новая версия – на GitHub, без optional chaining)
+// =====================================================
+//  3. ЗАГРУЗКА ФАЙЛОВ (через твой ПРОВЕРЕННЫЙ прокси)
+// =====================================================
+// ⚡⚡⚡ ВОТ ТВОЙ РАБОЧИЙ URL (возвращает 405 - это хорошо!) ⚡⚡⚡
+const PROXY_URL = 'https://pks-upload-proxy-qear.vercel.app/api/upload';
+
 window.uploadMaterial = async function() {
+    // Получаем данные из формы
     const subject = document.getElementById('material-subject').value;
     const type = document.getElementById('material-type').value;
     const displayName = document.getElementById('material-name').value.trim();
     const fileInput = document.getElementById('material-file');
     const file = fileInput.files[0];
 
+    // Валидация
     if (!subject || !type || !displayName || !file) {
         alert('Заполните все поля и выберите файл');
         return;
     }
 
+    // Показываем индикатор загрузки
     const progressDiv = document.getElementById('upload-progress');
     progressDiv.style.display = 'block';
-    progressDiv.textContent = 'Загрузка на GitHub...';
+    progressDiv.textContent = 'Загрузка на сервер...';
+
+    // Собираем данные для отправки
+    const formData = new FormData();
+    formData.append('subject', subject);
+    formData.append('displayName', displayName);
+    formData.append('type', type);
+    formData.append('file', file);
 
     try {
-        // 1. Загружаем файл на GitHub
-        const fileUrl = await uploadToGitHub(file, subject);
+        // 1. Отправляем файл на твой прокси (Vercel)
+        const response = await fetch(PROXY_URL, {
+            method: 'POST', // Это важно! Твой прокси ждёт именно POST
+            body: formData
+        });
 
-        // 2. Сохраняем информацию в Firestore
+        // Получаем ответ от прокси
+        const result = await response.json();
+
+        // Если прокси вернул ошибку
+        if (!response.ok) {
+            throw new Error(result.error || `Ошибка сервера: ${response.status}`);
+        }
+
+        // 2. Если файл загружен на GitHub, сохраняем ссылку в Firestore
         await addDoc(collection(db, "materials"), {
-            subject,
+            subject: subject,
             name: displayName,
-            fileUrl,
+            fileUrl: result.fileUrl, // Ссылка на файл в CDN
             fileName: file.name,
-            type,
+            type: type,
             createdAt: new Date().toISOString()
         });
 
+        // Всё хорошо
         progressDiv.style.display = 'none';
-        alert('Материал успешно загружен!');
+        alert('✅ Материал успешно загружен!');
 
         // Очистка формы
         document.getElementById('material-name').value = '';
         document.getElementById('material-file').value = '';
 
     } catch (error) {
-        console.error('Ошибка загрузки:', error);
+        // Всё плохо
+        console.error('❌ Ошибка загрузки:', error);
         progressDiv.style.display = 'none';
-
-        // Безопасное получение сообщения об ошибке (без optional chaining)
-        let errorMsg = error.message;
-        if (error.response && error.response.data && error.response.data.message) {
-            errorMsg = error.response.data.message;
-        }
-        alert('Ошибка: ' + errorMsg);
+        alert('Ошибка: ' + error.message);
     }
 };
