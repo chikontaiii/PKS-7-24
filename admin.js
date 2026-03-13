@@ -1,10 +1,5 @@
-// admin.js - ПОЛНОСТЬЮ РАБОЧАЯ ВЕРСИЯ
 import { db } from "./firebase.js";
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-// =====================================================
-//  1. ДОБАВЛЕНИЕ ДОМАШНЕГО ЗАДАНИЯ (работает как раньше)
-// =====================================================
 window.addHomework = async function() {
     const subject = document.getElementById('hw-subject').value.trim();
     const task = document.getElementById('hw-task').value.trim();
