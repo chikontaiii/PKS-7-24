@@ -1,4 +1,6 @@
 import { db } from "./firebase.js";
+import { auth } from "./firebase.js";
+console.log('Auth state:', auth.currentUser); // если null – не аутентифицирован
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 window.addHomework = async function() {
     const subject = document.getElementById('hw-subject').value.trim();
