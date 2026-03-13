@@ -1,8 +1,7 @@
 // app.js
 import { auth } from "./firebase.js";
-import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-// Элементы интерфейса
 const loginScreen = document.getElementById('login-screen');
 const appContent = document.getElementById('app-content');
 const emailInput = document.getElementById('email-input');
@@ -10,7 +9,6 @@ const passwordInput = document.getElementById('password-input');
 const loginBtn = document.getElementById('login-btn');
 const loginError = document.getElementById('login-error');
 
-// Функция входа
 if (loginBtn) {
     loginBtn.addEventListener('click', async(e) => {
         e.preventDefault();
@@ -32,16 +30,12 @@ if (loginBtn) {
     });
 }
 
-// Слушатель состояния
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        if (loginScreen) loginScreen.classList.remove('active');
-        if (appContent) appContent.classList.add('active');
+        loginScreen.classList.remove('active');
+        appContent.classList.add('active');
     } else {
-        if (loginScreen) loginScreen.classList.add('active');
-        if (appContent) appContent.classList.remove('active');
+        loginScreen.classList.add('active');
+        appContent.classList.remove('active');
     }
 });
-
-// Функция выхода (можно добавить кнопку)
-window.logout = () => signOut(auth);

@@ -3,13 +3,22 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админка | ПКС-7-24</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="фото/IMG_1754.PNG">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Специфические стили для админки */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
         body {
+            font-family: 'Inter', sans-serif;
             background: #F8F7F4;
+            color: #2C3E4F;
+            line-height: 1.6;
             padding: 2rem;
         }
         
@@ -63,9 +72,115 @@
         }
         
         .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            text-decoration: none;
             width: 100%;
         }
-        /* Адаптация для мобильных */
+        
+        .btn-primary {
+            background: #A51C30;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #8B1829;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(165, 28, 48, 0.3);
+        }
+        
+        #upload-progress {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: #F0F0F0;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+        /* Экран входа */
+        
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #F8F7F4;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+        
+        .login-overlay:not(.active) {
+            display: none;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .login-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .login-card h2 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-card p.subtitle {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        #app-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        #app-content.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        .login-card .form-group {
+            text-align: left;
+        }
+        
+        .login-card .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-card .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #F0F0F0;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        #login-error {
+            color: #A51C30;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            display: none;
+        }
         
         @media (max-width: 768px) {
             body {
@@ -73,17 +188,10 @@
             }
             .admin-card {
                 padding: 1.5rem;
-                margin-bottom: 1.5rem;
             }
-            h2 {
-                font-size: 1.5rem;
-                margin-bottom: 1rem;
-            }
-            .form-group input,
-            .form-group textarea,
-            .form-group select {
-                font-size: 1rem;
-                padding: 0.7rem;
+            .login-card {
+                padding: 2rem;
+                margin: 1rem;
             }
         }
         
@@ -99,43 +207,105 @@
 </head>
 
 <body>
-    <div class="admin-container">
-        <div class="admin-card">
-            <h2>📚 Добавить домашнее задание</h2>
+    <!-- Экран входа -->
+    <div id="login-screen" class="login-overlay active">
+        <div class="login-card">
+            <img src="фото/IMG_1754.PNG" alt="Логотип" style="width: 80px; margin-bottom: 1rem;">
+            <h2>Вход в админку</h2>
+            <p class="subtitle">Только для администраторов</p>
             <div class="form-group">
-                <label>Предмет</label>
-                <input type="text" id="hw-subject" placeholder="Например: Программирование">
+                <label>Email</label>
+                <input type="email" id="email-input" placeholder="Введите ваш email">
             </div>
-            <div class="form-group">
-                <label>Задание</label>
-                <textarea id="hw-task" rows="2" placeholder="Описание задания"></textarea>
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label>Пароль</label>
+                <input type="password" id="password-input" placeholder="Введите пароль">
             </div>
-            <div class="form-group">
-                <label>Дедлайн</label>
-                <input type="date" id="hw-deadline">
-            </div>
-            <div class="form-group">
-                <label>Ответственный (студент)</label>
-                <input type="text" id="hw-responsible" placeholder="ФИО или ник">
-            </div>
-            <button class="btn btn-primary" onclick="addHomework()">Добавить ДЗ</button>
-        </div>
-
-        <div class="admin-card">
-            <h2>⚠️ Добавить предупреждение</h2>
-            <div class="form-group">
-                <label>Студент</label>
-                <input type="text" id="warn-student" placeholder="ФИО студента">
-            </div>
-            <div class="form-group">
-                <label>Предупреждение / причина</label>
-                <textarea id="warn-text" rows="2" placeholder="Например: Опоздание на пару"></textarea>
-            </div>
-            <button class="btn btn-primary" onclick="addWarning()">Добавить предупреждение</button>
+            <button id="login-btn" class="btn btn-primary">Войти</button>
+            <p id="login-error">Неверный email или пароль</p>
         </div>
     </div>
 
+    <!-- Основной контент админки (доступен после входа) -->
+    <div id="app-content">
+        <div class="admin-container">
+            <!-- Карточка добавления ДЗ -->
+            <div class="admin-card">
+                <h2>📚 Добавить домашнее задание</h2>
+                <div class="form-group">
+                    <label>Предмет</label>
+                    <input type="text" id="hw-subject" placeholder="Например: Программирование">
+                </div>
+                <div class="form-group">
+                    <label>Задание</label>
+                    <textarea id="hw-task" rows="2" placeholder="Описание задания"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Дедлайн</label>
+                    <input type="date" id="hw-deadline">
+                </div>
+                <div class="form-group">
+                    <label>Ответственный (студент)</label>
+                    <input type="text" id="hw-responsible" placeholder="ФИО или ник">
+                </div>
+                <button class="btn btn-primary" onclick="addHomework()">Добавить ДЗ</button>
+            </div>
+
+            <!-- Карточка добавления предупреждения -->
+            <div class="admin-card">
+                <h2>⚠️ Добавить предупреждение</h2>
+                <div class="form-group">
+                    <label>Студент</label>
+                    <input type="text" id="warn-student" placeholder="ФИО студента">
+                </div>
+                <div class="form-group">
+                    <label>Предупреждение / причина</label>
+                    <textarea id="warn-text" rows="2" placeholder="Например: Опоздание на пару"></textarea>
+                </div>
+                <button class="btn btn-primary" onclick="addWarning()">Добавить предупреждение</button>
+            </div>
+
+            <!-- Карточка загрузки материалов -->
+            <div class="admin-card">
+                <h2>📁 Загрузить учебный материал</h2>
+                <div class="form-group">
+                    <label>Предмет</label>
+                    <select id="material-subject">
+                        <option value="Программирование">Программирование</option>
+                        <option value="Математика">Математика</option>
+                        <option value="Физика">Физика</option>
+                        <option value="Английский язык">Английский язык</option>
+                        <option value="История">История</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Тип материала</label>
+                    <select id="material-type">
+                        <option value="Конспект лекции">Конспект лекции</option>
+                        <option value="Отчет по лабораторной">Отчет по лабораторной</option>
+                        <option value="Фото/Скан">Фото/Скан</option>
+                        <option value="Доп. материалы">Доп. материалы</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Название (как будет отображаться)</label>
+                    <input type="text" id="material-name" placeholder="Например: Лекция 1: Основы Python">
+                </div>
+                <div class="form-group">
+                    <label>Выберите файл</label>
+                    <input type="file" id="material-file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                </div>
+                <button class="btn btn-primary" onclick="uploadMaterial()">Загрузить</button>
+                <div id="upload-progress">Загрузка...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Скрипты -->
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="app.js"></script>
     <script type="module" src="admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
 
 </html>
