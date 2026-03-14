@@ -49,33 +49,8 @@
                     <h3>📅 Расписание на сегодня</h3>
                     <span class="icon">📚</span>
                 </div>
-                <div class="schedule-item">
-                    <div>
-                        <div class="schedule-subject">ТСИ</div>
-                        <div class="schedule-time">09:00 - 10:30</div>
-                    </div>
-                    <span class="schedule-room">Ауд. 305</span>
-                </div>
-                <div class="schedule-item">
-                    <div>
-                        <div class="schedule-subject">ТА</div>
-                        <div class="schedule-time">10:45 - 12:15</div>
-                    </div>
-                    <span class="schedule-room">Ауд. 205</span>
-                </div>
-                <div class="schedule-item">
-                    <div>
-                        <div class="schedule-subject">КГ</div>
-                        <div class="schedule-time">13:00 - 14:30</div>
-                    </div>
-                    <span class="schedule-room">Лаб. 101</span>
-                </div>
-                <div class="schedule-item">
-                    <div>
-                        <div class="schedule-subject">Английский язык</div>
-                        <div class="schedule-time">14:45 - 16:15</div>
-                    </div>
-                    <span class="schedule-room">Каб. 412</span>
+                <div id="schedule-items">
+                    <!-- Сюда будут подгружаться предметы через JS -->
                 </div>
                 <a href="resp/Расписание ПКС 7-24 2 курс 4 семестр 2025-2026.pdf" target="_blank" class="btn btn-outline" style="margin-top: 1rem; width: 100%; display: inline-block; text-align: center;">Смотреть всё расписание →</a>
             </div>
@@ -369,6 +344,7 @@
         </div>
     </div>
     </div>
+    <script src="schedule.js"></script>
     <script src="script.js"></script>
     <script type="module" src="students.js"></script>
 </body>
