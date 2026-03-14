@@ -178,7 +178,7 @@
             margin: 3rem auto;
             max-width: 1200px;
         }
-        /* --- НОВЫЙ БЛОК ДЛЯ ПРЕДУПРЕЖДЕНИЙ (отдельно от сетки) --- */
+        /* Блок предупреждений */
         
         .warnings-section {
             background: rgba(255, 255, 255, 0.05);
@@ -225,7 +225,7 @@
             text-align: right;
             max-width: 60%;
         }
-        /* Сетка карточек (успеваемость, объявления, контакты) */
+        /* Сетка карточек */
         
         .parent-grid {
             display: grid;
@@ -299,7 +299,7 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(165, 28, 48, 0.3);
         }
-        /* --- Стили для экрана входа --- */
+        /* Стили для экрана входа */
         
         .login-overlay {
             position: fixed;
@@ -413,7 +413,8 @@
         
         @media (max-width: 768px) {
             .container {
-                padding: 0 1.5rem;
+                padding: 0 1rem;
+                /* Уменьшаем боковые отступы */
             }
             .header-content {
                 flex-direction: column;
@@ -431,11 +432,13 @@
             }
             .parent-grid {
                 grid-template-columns: 1fr;
-                gap: 1rem;
+                gap: 1.5rem;
+                /* Увеличиваем отступы между карточками */
             }
             .parent-access {
-                padding: 1.5rem;
-                margin: 1.5rem;
+                padding: 1.5rem 1rem;
+                /* Уменьшаем внутренние отступы */
+                margin: 1rem;
             }
             .parent-access h3 {
                 font-size: 1.5rem;
@@ -448,23 +451,35 @@
                 padding: 2rem;
                 margin: 1rem;
             }
-            /* Адаптация блока предупреждений */
+            /* Блок предупреждений */
             .warnings-section {
-                padding: 1rem;
-                margin-bottom: 1rem;
+                padding: 1.2rem;
+                margin-bottom: 1.5rem;
             }
             .warnings-section h4 {
-                font-size: 1.1rem;
+                font-size: 1.2rem;
+                margin-bottom: 0.8rem;
             }
             .warnings-compact li {
-                font-size: 0.8rem;
-                padding: 0.5rem 0;
+                font-size: 0.9rem;
+                padding: 0.6rem 0;
+            }
+            /* Делаем карточки более просторными */
+            .parent-card {
+                padding: 1.2rem;
+            }
+            .parent-card h4 {
+                font-size: 1.3rem;
+            }
+            .parent-card p {
+                font-size: 0.95rem;
             }
         }
         
         @media (max-width: 480px) {
             .logo h1 {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+                /* Немного уменьшаем заголовок */
             }
             .parent-card h4 {
                 font-size: 1.2rem;
@@ -473,16 +488,20 @@
                 padding: 1.5rem;
             }
             .login-card h2 {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
             }
+            /* Предупреждения в столбик для узких экранов */
             .warnings-compact li {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 0.25rem;
+                gap: 0.3rem;
             }
             .warning-text {
                 text-align: left;
                 max-width: 100%;
+            }
+            .parent-access h3 {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -510,7 +529,7 @@
         </div>
     </div>
 
-    <!-- Основной контент (доступен после входа) -->
+    <!-- Основной контент -->
     <div id="app-content">
         <header class="header">
             <div class="container">
@@ -548,13 +567,13 @@
                 <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; color: white;">👪 Родительский портал</h3>
                 <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; color: rgba(255,255,255,0.8);">Следите за академическими успехами вашего студента</p>
 
-                <!-- ОТДЕЛЬНЫЙ БЛОК ПРЕДУПРЕЖДЕНИЙ (теперь вне сетки) -->
+                <!-- Отдельный блок предупреждений -->
                 <div class="warnings-section">
                     <h4>⚠️ Последние предупреждения</h4>
                     <div id="warnings-list" class="warnings-compact"></div>
                 </div>
 
-                <!-- Сетка с остальными карточками -->
+                <!-- Сетка карточек -->
                 <div class="parent-grid">
                     <div class="parent-card">
                         <h4>📊 Успеваемость</h4>
