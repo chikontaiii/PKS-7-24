@@ -25,7 +25,6 @@ window.addHomework = async function() {
         document.getElementById('hw-subject').value = '';
         document.getElementById('hw-task').value = '';
         document.getElementById('hw-deadline').value = '';
-        document.getElementById('hw-responsible').value = '';
     } catch (error) {
         alert('Ошибка: ' + error.message);
     }
