@@ -14,8 +14,7 @@ async function loadHomework() {
             <td class="homework-subject">${hw.subject}</td>
             <td>${hw.task}</td>
             <td class="homework-deadline ${hw.deadline < new Date().toISOString().split('T')[0] ? 'urgent' : ''}">${hw.deadline}</td>
-            <td><span class="homework-responsible">${hw.responsible || '—'}</span></td>
-            <td>${hw.status || '⏳'}</td>
+
         `;
         tbody.appendChild(row);
     });
