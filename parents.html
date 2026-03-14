@@ -417,6 +417,78 @@
                 font-size: 1.5rem;
             }
         }
+        /* ===== Дополнительные правки для мобильных ===== */
+        
+        @media (max-width: 768px) {
+            .parent-access {
+                padding: 1rem !important;
+                margin: 1rem !important;
+            }
+            .parent-access h3 {
+                font-size: 1.3rem !important;
+            }
+            .parent-access>p {
+                font-size: 0.9rem !important;
+            }
+            .parent-grid {
+                gap: 0.8rem !important;
+            }
+            .parent-card {
+                padding: 1rem !important;
+            }
+            .parent-card h4 {
+                font-size: 1.1rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            .parent-card p {
+                font-size: 0.9rem !important;
+                margin-bottom: 0.8rem !important;
+            }
+            .parent-contact {
+                font-size: 0.8rem !important;
+                padding-top: 0.5rem !important;
+                margin-top: 0.5rem !important;
+            }
+            /* Стили для компактного списка предупреждений */
+            .warnings-compact-list {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+            .warnings-compact-list li {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+                font-size: 0.85rem;
+            }
+            .warnings-compact-list li:last-child {
+                border-bottom: none;
+            }
+            .warning-student-name {
+                font-weight: 500;
+                color: white;
+            }
+            .warning-text {
+                color: rgba(255, 255, 255, 0.8);
+                text-align: right;
+                max-width: 60%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .parent-access h3 {
+                font-size: 1.1rem !important;
+            }
+            .parent-card h4 {
+                font-size: 1rem !important;
+            }
+            .warnings-compact-list li {
+                font-size: 0.75rem;
+                padding: 0.4rem 0;
+            }
+        }
     </style>
 </head>
 
