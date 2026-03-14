@@ -18,8 +18,6 @@ window.addHomework = async function() {
             subject,
             task,
             deadline,
-            responsible,
-            status: '⏳',
             createdAt: new Date().toISOString()
         });
         alert('Домашнее задание добавлено!');
