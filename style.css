@@ -1040,3 +1040,11 @@
             background-color: rgba(0, 0, 0, 0.1);
             /* Лёгкий эффект при наведении */
         }
+        
+        .event-status a {
+            color: #1E2B3A !important;
+            /* Цвет как у обычного текста */
+            text-decoration: none !important;
+            /* Убираем подчёрёкивание */
+            /* остальные стили остаются */
+        }
