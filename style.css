@@ -1007,3 +1007,36 @@
                 padding: 0.5rem !important;
             }
         }
+        
+        .event-status {
+            padding: 0;
+            /* Убираем внутренний отступ у родителя */
+            overflow: hidden;
+            /* Чтобы скругление углов работало с ссылкой */
+            display: inline-block;
+            /* Или оставить как есть (inline-flex от .event-details) */
+        }
+        
+        .event-status a {
+            display: block;
+            /* Ссылка занимает всю площадь */
+            padding: 0.25rem 1rem;
+            /* Переносим отступы на ссылку */
+            color: #1E2B3A;
+            /* Цвет текста как был у статуса */
+            text-decoration: none;
+            /* Убираем подчёркивание */
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+            /* Запрещаем перенос текста */
+            border-radius: 20px;
+            /* Скругление как у родителя */
+            transition: background-color 0.2s;
+        }
+        
+        .event-status a:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            /* Лёгкий эффект при наведении */
+        }
