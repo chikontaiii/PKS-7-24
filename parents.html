@@ -504,15 +504,120 @@
                 font-size: 1.3rem;
             }
         }
+        /* ===== Стили для футера ===== */
         
-        footer {
-            margin-top: auto;
-            width: 100%;
-            text-align: center;
-            font-family: var(--font-code);
-            font-size: .75rem;
-            color: var(--text-dim);
-            padding: 20px
+        .footer {
+            background: linear-gradient(135deg, #1E2B3A 0%, #2C3E4F 100%);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 2rem 0;
+            margin-top: 4rem;
+            position: relative;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #A51C30, #D4AF37, #A51C30);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .footer-copyright {
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-copyright:hover {
+            opacity: 1;
+        }
+        
+        .footer-dev {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            transition: all 0.3s;
+        }
+        
+        .footer-dev:hover {
+            background: rgba(212, 175, 55, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .dev-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .dev-name {
+            font-weight: 600;
+            color: #D4AF37;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .dev-name:hover {
+            color: #A51C30;
+            text-decoration: underline;
+        }
+        
+        .dev-heart {
+            color: #A51C30;
+            font-size: 0.9rem;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            display: inline-block;
+        }
+        
+        @keyframes heartbeat {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+        /* Адаптивность для футера */
+        
+        @media (max-width: 768px) {
+            .footer {
+                padding: 1.5rem 0;
+                margin-top: 3rem;
+            }
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.8rem;
+            }
+            .footer-copyright {
+                font-size: 0.75rem;
+            }
+            .footer-dev {
+                padding: 0.25rem 0.8rem;
+            }
+            .dev-label {
+                font-size: 0.7rem;
+            }
+            .dev-name {
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
@@ -622,16 +727,23 @@
             </div>
         </div>
     </div>
-
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-copyright">
+                    © 2026 ПК МУКР • Группа ПКС-7-24
+                </div>
+                <div class="footer-dev">
+                    <span class="dev-label">Developer:</span>
+                    <a href="#" class="dev-name">chikosi</a>
+                    <span class="dev-heart">❤️</span>
+                </div>
+            </div>
+        </div>
+    </footer>
     <!-- Скрипты -->
     <script type="module" src="app.js"></script>
     <script type="module" src="parents.js"></script>
-
-    <footer class="footer">
-        <div class="container">
-            <p>Developer: Chikosi</p>
-        </div>
-    </footer>
 </body>
 
 </html>
