@@ -980,3 +980,13 @@ body {
     margin-top: 1rem;
     display: none;
 }
+
+.footer {
+    background: #1E2B3A;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 1rem 0;
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
