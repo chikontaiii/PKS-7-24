@@ -1431,3 +1431,14 @@ body {
         color: #A51C30;
     }
 }
+
+.info-link {
+    color: #A51C30;
+    text-decoration: none;
+    transition: color 0.2s, text-decoration 0.2s;
+}
+
+.info-link:hover {
+    text-decoration: underline;
+    color: #8B1829;
+}
