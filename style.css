@@ -203,9 +203,9 @@ body {
 .schedule-tomorrow h4 {
     font-family: 'Playfair Display', serif;
     font-size: 1.1rem;
-    color: #1E2B3A;
+    color: #A51C30;
     margin-bottom: 0.75rem;
-    border-left: 3px solid #A51C30;
+    border-left: 3px solid #1E2B3A;
     padding-left: 0.75rem;
 }
 
