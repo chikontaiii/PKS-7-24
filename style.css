@@ -204,10 +204,8 @@ body {
     font-family: 'Playfair Display', serif;
     font-size: 1.1rem;
     color: #1E2B3A;
-    /* тёмный цвет текста */
     margin-bottom: 0.75rem;
     border-left: 3px solid #A51C30;
-    /* палка такого же цвета */
     padding-left: 0.75rem;
 }
 
