@@ -154,10 +154,9 @@ function loadBellSchedule() {
 function loadWeekInfo() {
     const weekType = getCurrentWeekType();
     const weekTypeText = weekType === 'numerator' ? 'Числитель' : 'Знаменатель';
-    // Можно добавить отображение где-нибудь на странице, например, в заголовке карточки
-    const weekInfo = document.getElementById('week-type-info');
-    if (weekInfo) {
-        weekInfo.textContent = weekTypeText;
+    const badge = document.getElementById('week-type-badge');
+    if (badge) {
+        badge.textContent = `Текущая неделя: ${weekTypeText}`;
     }
 }
 
