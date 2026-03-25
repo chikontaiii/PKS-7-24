@@ -1263,3 +1263,117 @@ body {
         font-size: 1.3rem;
     }
 }
+
+
+/* ===== Адаптация для ПК (широкие экраны) ===== */
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1600px;
+        padding: 0 4rem;
+    }
+    .dashboard-grid {
+        gap: 2.5rem;
+    }
+    .card {
+        padding: 2rem;
+        overflow-x: auto;
+        /* горизонтальный скролл внутри карточки */
+    }
+    .card-header h3 {
+        font-size: 1.5rem;
+    }
+    .schedule-today,
+    .schedule-tomorrow {
+        margin-bottom: 2rem;
+    }
+    .schedule-item {
+        padding: 1rem 0;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    .schedule-subject {
+        font-size: 1rem;
+    }
+    .schedule-time {
+        font-size: 0.95rem;
+    }
+    .schedule-room {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.8rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 120px;
+    }
+    .warning-item {
+        padding: 1rem 0;
+    }
+    .warning-student {
+        font-size: 1rem;
+    }
+    .warning-badge {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.9rem;
+    }
+    .warning-level {
+        font-size: 0.9rem;
+    }
+    .announcement {
+        padding: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+    .announcement-title {
+        font-size: 1rem;
+    }
+    .announcement-meta {
+        font-size: 0.85rem;
+    }
+    .roles-grid {
+        gap: 2rem;
+    }
+    .role-card {
+        padding: 1.8rem;
+    }
+    .event-item {
+        gap: 2.5rem;
+        margin-bottom: 2.5rem;
+    }
+    .event-day {
+        font-size: 2.2rem;
+    }
+    .event-title {
+        font-size: 1.3rem;
+    }
+    .event-details {
+        font-size: 1rem;
+    }
+    .rating-section {
+        padding: 2.5rem;
+    }
+    .rating-row {
+        padding: 1.2rem 0;
+        font-size: 1rem;
+    }
+    .rating-badge {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.8rem;
+    }
+}
+
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1800px;
+        padding: 0 5rem;
+    }
+    .dashboard-grid {
+        gap: 3rem;
+    }
+    .card-header h3 {
+        font-size: 1.6rem;
+    }
+    .schedule-today h4,
+    .schedule-tomorrow h4 {
+        font-size: 1.2rem;
+    }
+}
