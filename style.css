@@ -194,6 +194,21 @@ body {
     opacity: 0.3;
 }
 
+.schedule-today,
+.schedule-tomorrow {
+    margin-bottom: 1.5rem;
+}
+
+.schedule-today h4,
+.schedule-tomorrow h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #A51C30;
+    margin-bottom: 0.75rem;
+    border-left: 3px solid #D4AF37;
+    padding-left: 0.75rem;
+}
+
 .schedule-item {
     display: flex;
     justify-content: space-between;
