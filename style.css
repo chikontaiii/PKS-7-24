@@ -274,6 +274,7 @@ body {
 .week-type-badge {
     text-align: center;
     font-size: 1rem;
+    /*dd*/
     font-weight: 500;
     color: #1E2B3A;
     margin-bottom: 1rem;
