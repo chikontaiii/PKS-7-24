@@ -274,9 +274,7 @@ body {
 .week-type-badge {
     text-align: center;
     font-size: 1rem;
-    /* как обычный текст предмета */
     font-weight: 500;
-    /* как у schedule-subject */
     color: #1E2B3A;
     margin-bottom: 1rem;
     display: inline-block;
