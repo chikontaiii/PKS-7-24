@@ -203,9 +203,11 @@ body {
 .schedule-tomorrow h4 {
     font-family: 'Playfair Display', serif;
     font-size: 1.1rem;
-    color: #A51C30;
+    color: #1E2B3A;
+    /* тёмный цвет текста */
     margin-bottom: 0.75rem;
-    border-left: 3px solid #D4AF37;
+    border-left: 3px solid #1E2B3A;
+    /* палка такого же цвета */
     padding-left: 0.75rem;
 }
 
@@ -273,8 +275,10 @@ body {
 
 .week-type-badge {
     text-align: center;
-    font-size: 0.85rem;
-    font-weight: normal;
+    font-size: 1rem;
+    /* как обычный текст предмета */
+    font-weight: 500;
+    /* как у schedule-subject */
     color: #1E2B3A;
     margin-bottom: 1rem;
     display: inline-block;
@@ -283,7 +287,7 @@ body {
     margin-right: auto;
     background: none;
     border: none;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .announcement-badge {
