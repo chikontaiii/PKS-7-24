@@ -273,19 +273,21 @@ body {
 
 .week-type-badge {
     text-align: center;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.85rem;
+    font-weight: normal;
     color: #1E2B3A;
-    padding: 0.4rem 0.8rem;
-    border-radius: 30px;
     margin-bottom: 1rem;
     display: inline-block;
     width: auto;
     margin-left: auto;
     margin-right: auto;
+    background: none;
+    border: none;
+    opacity: 0.8;
 }
 
 .announcement-badge {
+    background: #D4AF37;
     color: #1E2B3A;
     font-size: 0.7rem;
     padding: 0.2rem 0.5rem;
