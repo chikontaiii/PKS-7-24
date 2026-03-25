@@ -823,9 +823,6 @@ body {
         padding: 1rem !important;
         overflow-x: auto !important;
     }
-    .homework-table {
-        min-width: 600px !important;
-    }
     .rating-section {
         padding: 1rem !important;
     }
@@ -1380,5 +1377,57 @@ body {
     }
     .subject-folder h4 {
         font-size: 1.3rem;
+    }
+}
+
+
+/* Адаптация таблицы ДЗ для мобильных */
+
+@media (max-width: 768px) {
+    .homework-section {
+        overflow-x: visible !important;
+        padding: 1rem !important;
+    }
+    .homework-table,
+    .homework-table thead,
+    .homework-table tbody,
+    .homework-table tr,
+    .homework-table th,
+    .homework-table td {
+        display: block;
+    }
+    .homework-table thead {
+        display: none;
+        /* скрываем заголовки таблицы */
+    }
+    .homework-table tr {
+        margin-bottom: 1rem;
+        border: 1px solid #F0F0F0;
+        border-radius: 16px;
+        padding: 1rem;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+    .homework-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 0.6rem 0;
+        border: none;
+        border-bottom: 1px solid #F0F0F0;
+        font-size: 0.9rem;
+    }
+    .homework-table td:last-child {
+        border-bottom: none;
+    }
+    .homework-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #1E2B3A;
+        margin-right: 1rem;
+        min-width: 80px;
+    }
+    .homework-subject {
+        color: #A51C30;
     }
 }
