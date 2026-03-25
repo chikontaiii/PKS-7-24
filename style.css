@@ -1489,3 +1489,33 @@ body {
 .info-link-button:hover .link-icon {
     transform: scale(1.1);
 }
+
+
+/* Компактная карточка информации */
+
+.info-card .info-content {
+    padding: 0.5rem 0 0.2rem 0;
+    border-top: 1px solid #F0F0F0;
+}
+
+.info-title {
+    font-weight: 600;
+    color: #2C3E4F;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.info-link {
+    display: inline-block;
+    color: #A51C30;
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 0.25rem 0;
+    transition: color 0.2s;
+    border-bottom: 1px dashed rgba(165, 28, 48, 0.3);
+}
+
+.info-link:hover {
+    color: #8B1829;
+    border-bottom-color: #A51C30;
+}
