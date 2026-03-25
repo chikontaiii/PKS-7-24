@@ -153,7 +153,7 @@ function loadBellSchedule() {
 // ===== ЗАГРУЗКА ИНФОРМАЦИИ О ТЕКУЩЕЙ НЕДЕЛЕ =====
 function loadWeekInfo() {
     const weekType = getCurrentWeekType();
-    const weekTypeText = weekType === 'numerator' ? 'Числитель' : 'Знаменатель';
+    const weekTypeText = weekType === 'numerator' ? 'Числитель (Белая)' : 'Знаменатель (Чёрная)';
     const badge = document.getElementById('week-type-badge');
     if (badge) {
         badge.textContent = `Текущая неделя: ${weekTypeText}`;
