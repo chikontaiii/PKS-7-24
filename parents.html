@@ -26,7 +26,6 @@
             margin: 0 auto;
             padding: 0 3rem;
         }
-        /* Шапка */
         
         .header {
             background: linear-gradient(135deg, #1E2B3A 0%, #2C3E4F 100%);
@@ -118,7 +117,6 @@
             color: #D4AF37;
             font-size: 0.9rem;
         }
-        /* Навигация */
         
         .nav {
             background: white;
@@ -166,7 +164,6 @@
         .nav a.active {
             color: #A51C30;
         }
-        /* Родительский доступ */
         
         .parent-access {
             background: linear-gradient(135deg, #1E2B3A 0%, #2C3E4F 100%);
@@ -176,7 +173,6 @@
             margin: 3rem auto;
             max-width: 1200px;
         }
-        /* Блок предупреждений */
         
         .warnings-section {
             background: rgba(255, 255, 255, 0.05);
@@ -192,7 +188,6 @@
             margin-bottom: 1rem;
             color: #D4AF37;
         }
-        /* Компактный список предупреждений */
         
         .warnings-compact {
             list-style: none;
@@ -202,28 +197,46 @@
         
         .warnings-compact li {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 0;
+            flex-direction: column;
+            padding: 0.9rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.95rem;
         }
         
         .warnings-compact li:last-child {
             border-bottom: none;
         }
         
+        .warning-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.4rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
         .warning-student {
-            font-weight: 600;
-            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #D4AF37;
+        }
+        
+        .warning-date {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
         }
         
         .warning-text {
-            color: rgba(255, 255, 255, 0.8);
-            text-align: right;
-            max-width: 60%;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.4;
+            border-left: 2px solid #D4AF37;
+            padding-left: 0.75rem;
+            margin-top: 0.2rem;
         }
-        /* Сетка карточек */
         
         .parent-grid {
             display: grid;
@@ -269,13 +282,6 @@
             padding-top: 1rem;
         }
         
-        .parent-contact span {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        /* Кнопки */
-        
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
@@ -297,7 +303,6 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(165, 28, 48, 0.3);
         }
-        /* Стили для экрана входа */
         
         .login-overlay {
             position: fixed;
@@ -385,7 +390,6 @@
             margin-top: 1rem;
             display: none;
         }
-        /* Анимации */
         
         @keyframes fadeIn {
             from {
@@ -401,108 +405,6 @@
         .fade-in {
             animation: fadeIn 0.5s ease-out;
         }
-        /* === Адаптивность === */
-        
-        @media (max-width: 1200px) {
-            .parent-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 1rem;
-                /* Уменьшаем боковые отступы */
-            }
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-            .logo {
-                flex-direction: column;
-                text-align: center;
-            }
-            .nav ul {
-                flex-wrap: wrap;
-                gap: 1rem;
-                justify-content: center;
-            }
-            .parent-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-                /* Увеличиваем отступы между карточками */
-            }
-            .parent-access {
-                padding: 1.5rem 1rem;
-                /* Уменьшаем внутренние отступы */
-                margin: 1rem;
-            }
-            .parent-access h3 {
-                font-size: 1.5rem;
-            }
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-            .login-card {
-                padding: 2rem;
-                margin: 1rem;
-            }
-            /* Блок предупреждений */
-            .warnings-section {
-                padding: 1.2rem;
-                margin-bottom: 1.5rem;
-            }
-            .warnings-section h4 {
-                font-size: 1.2rem;
-                margin-bottom: 0.8rem;
-            }
-            .warnings-compact li {
-                font-size: 0.9rem;
-                padding: 0.6rem 0;
-            }
-            /* Делаем карточки более просторными */
-            .parent-card {
-                padding: 1.2rem;
-            }
-            .parent-card h4 {
-                font-size: 1.3rem;
-            }
-            .parent-card p {
-                font-size: 0.95rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .logo h1 {
-                font-size: 1.3rem;
-                /* Немного уменьшаем заголовок */
-            }
-            .parent-card h4 {
-                font-size: 1.2rem;
-            }
-            .login-card {
-                padding: 1.5rem;
-            }
-            .login-card h2 {
-                font-size: 1.3rem;
-            }
-            /* Предупреждения в столбик для узких экранов */
-            .warnings-compact li {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.3rem;
-            }
-            .warning-text {
-                text-align: left;
-                max-width: 100%;
-            }
-            .parent-access h3 {
-                font-size: 1.3rem;
-            }
-        }
-        /* ===== Стили для футера ===== */
         
         .footer {
             background: linear-gradient(135deg, #1E2B3A 0%, #2C3E4F 100%);
@@ -592,9 +494,70 @@
                 transform: scale(1.2);
             }
         }
-        /* Адаптивность для футера */
         
         @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            .logo {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav ul {
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+            .parent-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .parent-access {
+                padding: 1.5rem 1rem;
+                margin: 1rem;
+            }
+            .parent-access h3 {
+                font-size: 1.5rem;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            .login-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            .warnings-section {
+                padding: 1.2rem;
+                margin-bottom: 1.5rem;
+            }
+            .warnings-section h4 {
+                font-size: 1.2rem;
+                margin-bottom: 0.8rem;
+            }
+            .warning-student {
+                font-size: 0.9rem;
+            }
+            .warning-date {
+                font-size: 0.65rem;
+            }
+            .warning-text {
+                font-size: 0.85rem;
+            }
+            .parent-card {
+                padding: 1.2rem;
+            }
+            .parent-card h4 {
+                font-size: 1.3rem;
+            }
+            .parent-card p {
+                font-size: 0.95rem;
+            }
             .footer {
                 padding: 1.5rem 0;
                 margin-top: 3rem;
@@ -617,17 +580,41 @@
                 font-size: 0.85rem;
             }
         }
+        
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.3rem;
+            }
+            .parent-card h4 {
+                font-size: 1.2rem;
+            }
+            .login-card {
+                padding: 1.5rem;
+            }
+            .login-card h2 {
+                font-size: 1.3rem;
+            }
+            .warning-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.2rem;
+            }
+            .warning-date {
+                align-self: flex-start;
+            }
+            .parent-access h3 {
+                font-size: 1.3rem;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- Экран входа -->
     <div id="login-screen" class="login-overlay active">
         <div class="login-card">
             <img src="фото/IMG_1754.PNG" alt="Логотип" style="width: 80px; margin-bottom: 1rem;">
             <h2>Вход на портал</h2>
             <p class="subtitle">Группа ПКС-7-24</p>
-
             <div class="form-group">
                 <label>Email</label>
                 <input type="email" id="email-input" placeholder="Введите ваш email">
@@ -636,19 +623,17 @@
                 <label>Пароль</label>
                 <input type="password" id="password-input" placeholder="Введите пароль">
             </div>
-
             <button id="login-btn" class="btn btn-primary" style="width: 100%;">Войти</button>
             <p id="login-error">Неверный email или пароль</p>
         </div>
     </div>
 
-    <!-- Основной контент -->
     <div id="app-content">
         <header class="header">
             <div class="container">
                 <div class="header-content">
                     <div class="logo">
-                        <img src="фото/IMG_1754.PNG" alt="ПКС-7-24" class="site-logo" onerror="this.style.display='none'">
+                        <img src="фото/IMG_1754.PNG" alt="ПКС-7-24" class="site-logo">
                         <div>
                             <h1>ПК МУКР <span>| Группа ПКС-7-24</span></h1>
                             <p>Техники-Программисты</p>
@@ -681,13 +666,11 @@
                 <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; color: white;">👪 Родительский портал</h3>
                 <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; color: rgba(255,255,255,0.8);">Следите за академическими успехами вашего студента</p>
 
-                <!-- Отдельный блок предупреждений -->
                 <div class="warnings-section">
                     <h4>⚠️ Последние предупреждения</h4>
                     <div id="warnings-list" class="warnings-compact"></div>
                 </div>
 
-                <!-- Сетка карточек -->
                 <div class="parent-grid">
                     <div class="parent-card">
                         <h4>📊 Успеваемость</h4>
@@ -696,7 +679,6 @@
                             <span>🔐 Скоро...</span>
                         </div>
                     </div>
-
                     <div class="parent-card">
                         <h4>📢 Объявления</h4>
                         <p>Важные новости, родительские собрания и обновления от администрации</p>
@@ -704,7 +686,6 @@
                             <span>Ожидайте...</span>
                         </div>
                     </div>
-
                     <div class="parent-card">
                         <h4>📞 Контакты</h4>
                         <p>Куратор группы: Бардыгулова Н.Д.</p>
@@ -724,6 +705,7 @@
             </div>
         </div>
     </div>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -738,7 +720,7 @@
             </div>
         </div>
     </footer>
-    <!-- Скрипты -->
+
     <script type="module" src="app.js"></script>
     <script type="module" src="parents.js"></script>
 </body>
