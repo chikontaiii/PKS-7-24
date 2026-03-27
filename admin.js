@@ -1,38 +1,42 @@
 import { db } from "./firebase.js";
-import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-// ========== УПРАВЛЕНИЕ СТУДЕНТАМИ (с сортировкой) ==========
+// ========== УПРАВЛЕНИЕ СТУДЕНТАМИ ==========
 
-// Загрузка списка студентов в выпадающий список #warn-student (сортировка по имени)
 async function loadStudentsToSelect() {
     const studentSelect = document.getElementById('warn-student');
     if (!studentSelect) return;
 
-    // Используем orderBy прямо в запросе — сортировка на стороне Firestore
-    const q = query(collection(db, "students"), orderBy("name"));
-    const snapshot = await getDocs(q);
+    const snapshot = await getDocs(collection(db, "students"));
+    const students = [];
+    snapshot.forEach(doc => {
+        students.push({ id: doc.id, name: doc.data().name });
+    });
+    // Сортировка по имени (русские буквы корректно)
+    students.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
 
     studentSelect.innerHTML = '<option value="">-- Выберите студента --</option>';
-    snapshot.forEach(doc => {
-        const student = doc.data().name;
+    students.forEach(student => {
         const option = document.createElement('option');
-        option.value = student;
-        option.textContent = student;
+        option.value = student.name;
+        option.textContent = student.name;
         studentSelect.appendChild(option);
     });
 }
 
-// Отображение списка студентов в карточке управления (сортировка по имени)
 async function displayStudentList() {
     const container = document.getElementById('student-list');
     if (!container) return;
 
-    const q = query(collection(db, "students"), orderBy("name"));
-    const snapshot = await getDocs(q);
+    const snapshot = await getDocs(collection(db, "students"));
+    const students = [];
+    snapshot.forEach(docSnap => {
+        students.push({ id: docSnap.id, name: docSnap.data().name });
+    });
+    students.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
 
     container.innerHTML = '';
-    snapshot.forEach(docSnap => {
-        const student = docSnap.data().name;
+    students.forEach(student => {
         const div = document.createElement('div');
         div.className = 'student-list-item';
         div.style.display = 'flex';
@@ -41,14 +45,13 @@ async function displayStudentList() {
         div.style.padding = '0.5rem 0';
         div.style.borderBottom = '1px solid #F0F0F0';
         div.innerHTML = `
-            <span>${student}</span>
-            <button class="btn btn-outline" style="padding: 0.2rem 0.6rem; width: auto;" onclick="deleteStudent('${docSnap.id}')">Удалить</button>
+            <span>${student.name}</span>
+            <button class="btn btn-outline" style="padding: 0.2rem 0.6rem; width: auto;" onclick="deleteStudent('${student.id}')">Удалить</button>
         `;
         container.appendChild(div);
     });
 }
 
-// Добавление нового студента
 window.addStudent = async function() {
     const nameInput = document.getElementById('new-student-name');
     const name = nameInput.value.trim();
@@ -60,14 +63,13 @@ window.addStudent = async function() {
         await addDoc(collection(db, "students"), { name });
         alert('Студент добавлен');
         nameInput.value = '';
-        loadStudentsToSelect(); // обновляем выпадающий список
-        displayStudentList(); // обновляем список
+        loadStudentsToSelect();
+        displayStudentList();
     } catch (error) {
         alert('Ошибка: ' + error.message);
     }
 };
 
-// Удаление студента
 window.deleteStudent = async function(studentId) {
     if (!confirm('Удалить студента?')) return;
     try {
@@ -130,7 +132,7 @@ window.addWarning = async function() {
     }
 };
 
-// ========== ЗАГРУЗКА ФАЙЛОВ (прокси) ==========
+// ========== ЗАГРУЗКА ФАЙЛОВ ==========
 const PROXY_URL = 'https://pks-upload-proxy-qear.vercel.app/api/upload';
 
 window.uploadMaterial = async function() {
