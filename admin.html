@@ -94,6 +94,20 @@
             box-shadow: 0 5px 15px rgba(165, 28, 48, 0.3);
         }
         
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #A51C30;
+            color: #A51C30;
+            width: auto;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+        }
+        
+        .btn-outline:hover {
+            background: #A51C30;
+            color: white;
+        }
+        
         #upload-progress {
             margin-top: 1rem;
             padding: 0.5rem;
@@ -101,6 +115,18 @@
             border-radius: 8px;
             text-align: center;
             display: none;
+        }
+        
+        .student-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+        
+        .student-list-item:last-child {
+            border-bottom: none;
         }
         
         .login-overlay {
@@ -225,7 +251,7 @@
         </div>
     </div>
 
-    <!-- Основной контент админки (доступен после входа) -->
+    <!-- Основной контент админки -->
     <div id="app-content">
         <div class="admin-container">
             <!-- Карточка добавления ДЗ -->
@@ -250,19 +276,20 @@
                 <button class="btn btn-primary" onclick="addHomework()">Добавить ДЗ</button>
             </div>
 
-            <!-- Карточка управления студентами -->
+            <!-- Карточка добавления предупреждения -->
             <div class="admin-card">
-                <h2>👥 Список студентов</h2>
+                <h2>⚠️ Добавить предупреждение</h2>
                 <div class="form-group">
-                    <label>Добавить студента</label>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <input type="text" id="new-student-name" placeholder="ФИО студента" style="flex: 1;">
-                        <button class="btn btn-primary" onclick="addStudent()" style="width: auto;">Добавить</button>
-                    </div>
+                    <label>Студент</label>
+                    <select id="warn-student" required>
+                        <option value="">-- Выберите студента --</option>
+                    </select>
                 </div>
-                <div id="student-list">
-                    <!-- Сюда будет загружаться список студенто -->
+                <div class="form-group">
+                    <label>Предупреждение / причина</label>
+                    <textarea id="warn-text" rows="2" placeholder="Например: Опоздание на пару"></textarea>
                 </div>
+                <button class="btn btn-primary" onclick="addWarning()">Добавить предупреждение</button>
             </div>
 
             <!-- Карточка загрузки материалов -->
@@ -301,6 +328,21 @@
                 </div>
                 <button class="btn btn-primary" onclick="uploadMaterial()">Загрузить</button>
                 <div id="upload-progress" style="margin-top: 1rem; display: none;">Загрузка...</div>
+            </div>
+
+            <!-- Карточка управления студентами -->
+            <div class="admin-card">
+                <h2>👥 Список студентов</h2>
+                <div class="form-group">
+                    <label>Добавить студента</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="new-student-name" placeholder="ФИО студента" style="flex: 1;">
+                        <button class="btn btn-primary" onclick="addStudent()" style="width: auto;">Добавить</button>
+                    </div>
+                </div>
+                <div id="student-list">
+                    <!-- Сюда загружается список студентов -->
+                </div>
             </div>
         </div>
     </div>
