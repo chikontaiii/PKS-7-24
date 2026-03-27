@@ -1,13 +1,17 @@
 import { db } from "./firebase.js";
-import { collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-// ========== УПРАВЛЕНИЕ СТУДЕНТАМИ ==========
-// Загрузка списка студентов в выпадающий список #warn-student
+// ========== УПРАВЛЕНИЕ СТУДЕНТАМИ (с сортировкой) ==========
+
+// Загрузка списка студентов в выпадающий список #warn-student (сортировка по имени)
 async function loadStudentsToSelect() {
     const studentSelect = document.getElementById('warn-student');
     if (!studentSelect) return;
 
-    const snapshot = await getDocs(collection(db, "students"));
+    // Используем orderBy прямо в запросе — сортировка на стороне Firestore
+    const q = query(collection(db, "students"), orderBy("name"));
+    const snapshot = await getDocs(q);
+
     studentSelect.innerHTML = '<option value="">-- Выберите студента --</option>';
     snapshot.forEach(doc => {
         const student = doc.data().name;
@@ -18,16 +22,19 @@ async function loadStudentsToSelect() {
     });
 }
 
-// Отображение списка студентов в карточке управления
+// Отображение списка студентов в карточке управления (сортировка по имени)
 async function displayStudentList() {
     const container = document.getElementById('student-list');
     if (!container) return;
 
-    const snapshot = await getDocs(collection(db, "students"));
+    const q = query(collection(db, "students"), orderBy("name"));
+    const snapshot = await getDocs(q);
+
     container.innerHTML = '';
     snapshot.forEach(docSnap => {
         const student = docSnap.data().name;
         const div = document.createElement('div');
+        div.className = 'student-list-item';
         div.style.display = 'flex';
         div.style.justifyContent = 'space-between';
         div.style.alignItems = 'center';
@@ -77,10 +84,9 @@ window.addHomework = async function() {
     const subject = document.getElementById('hw-subject').value.trim();
     const task = document.getElementById('hw-task').value.trim();
     const deadline = document.getElementById('hw-deadline').value;
-    const responsible = document.getElementById('hw-responsible').value.trim() || '—';
 
     if (!subject || !task || !deadline) {
-        alert('Заполните все поля (кроме ответственного)');
+        alert('Заполните все поля');
         return;
     }
 
@@ -95,7 +101,6 @@ window.addHomework = async function() {
         document.getElementById('hw-subject').value = '';
         document.getElementById('hw-task').value = '';
         document.getElementById('hw-deadline').value = '';
-        document.getElementById('hw-responsible').value = '';
     } catch (error) {
         alert('Ошибка: ' + error.message);
     }
@@ -119,7 +124,6 @@ window.addWarning = async function() {
             date: new Date().toISOString().split('T')[0]
         });
         alert('Предупреждение добавлено!');
-        // Очищаем только поле предупреждения, студент остаётся выбранным (опционально)
         document.getElementById('warn-text').value = '';
     } catch (error) {
         alert('Ошибка: ' + error.message);
@@ -180,6 +184,5 @@ window.uploadMaterial = async function() {
 };
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
-// Загружаем список студентов при старте
 loadStudentsToSelect();
 displayStudentList();
