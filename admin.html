@@ -102,7 +102,6 @@
             text-align: center;
             display: none;
         }
-        /* Экран входа */
         
         .login-overlay {
             position: fixed;
@@ -251,18 +250,19 @@
                 <button class="btn btn-primary" onclick="addHomework()">Добавить ДЗ</button>
             </div>
 
-            <!-- Карточка добавления предупреждения -->
+            <!-- Карточка управления студентами -->
             <div class="admin-card">
-                <h2>⚠️ Добавить предупреждение</h2>
+                <h2>👥 Список студентов</h2>
                 <div class="form-group">
-                    <label>Студент</label>
-                    <input type="text" id="warn-student" placeholder="ФИО студента">
+                    <label>Добавить студента</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="new-student-name" placeholder="ФИО студента" style="flex: 1;">
+                        <button class="btn btn-primary" onclick="addStudent()" style="width: auto;">Добавить</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Предупреждение / причина</label>
-                    <textarea id="warn-text" rows="2" placeholder="Например: Опоздание на пару"></textarea>
+                <div id="student-list">
+                    <!-- Сюда будет загружаться список студентов -->
                 </div>
-                <button class="btn btn-primary" onclick="addWarning()">Добавить предупреждение</button>
             </div>
 
             <!-- Карточка загрузки материалов -->
