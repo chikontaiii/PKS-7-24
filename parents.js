@@ -3,38 +3,77 @@ import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/fir
 
 const warningsList = document.getElementById('warnings-list');
 
-async function loadWarnings() {
+async function loadGroupedWarnings() {
+    // 1. Загружаем всех студентов
+    const studentsSnapshot = await getDocs(collection(db, "students"));
+    const students = [];
+    studentsSnapshot.forEach(doc => {
+        students.push({ id: doc.id, name: doc.data().name });
+    });
+    // Сортируем студентов по имени
+    students.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+
+    // 2. Загружаем все предупреждения
     const q = query(collection(db, "warnings"), orderBy("date", "desc"));
-    const snapshot = await getDocs(q);
-
-    const ul = document.createElement('ul');
-    ul.className = 'warnings-compact';
-
-    if (snapshot.empty) {
-        ul.innerHTML = '<li style="justify-content: center; opacity: 0.7;">Нет предупреждений</li>';
-    } else {
-        snapshot.forEach(doc => {
-            const w = doc.data();
-            const li = document.createElement('li');
-            // Форматируем дату из формата YYYY-MM-DD в DD.MM.YYYY
-            let formattedDate = w.date || '';
-            if (formattedDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
-                const [year, month, day] = formattedDate.split('-');
-                formattedDate = `${day}.${month}.${year}`;
-            }
-            li.innerHTML = `
-                <div class="warning-info">
-                    <span class="warning-student">${w.student}</span>
-                    <span class="warning-date">${formattedDate}</span>
-                </div>
-                <div class="warning-text">${w.warning}</div>
-            `;
-            ul.appendChild(li);
+    const warningsSnapshot = await getDocs(q);
+    const warningsByStudent = {};
+    warningsSnapshot.forEach(doc => {
+        const w = doc.data();
+        const studentName = w.student;
+        if (!warningsByStudent[studentName]) {
+            warningsByStudent[studentName] = [];
+        }
+        // Форматируем дату из YYYY-MM-DD в DD.MM.YYYY
+        let formattedDate = w.date || '';
+        if (formattedDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
+            const [year, month, day] = formattedDate.split('-');
+            formattedDate = `${day}.${month}.${year}`;
+        }
+        warningsByStudent[studentName].push({
+            text: w.warning,
+            date: formattedDate,
+            rawDate: w.date
         });
-    }
+    });
 
-    warningsList.innerHTML = '';
-    warningsList.appendChild(ul);
+    // 3. Формируем HTML
+    const container = document.getElementById('warnings-list');
+    container.innerHTML = '';
+
+    students.forEach(student => {
+        const studentWarnings = warningsByStudent[student.name] || [];
+        // Сортируем предупреждения внутри студента по дате (новые сверху)
+        studentWarnings.sort((a, b) => (b.rawDate || '').localeCompare(a.rawDate || ''));
+
+        const studentBlock = document.createElement('div');
+        studentBlock.className = 'student-warnings-block';
+
+        // Заголовок с именем студента
+        const studentNameEl = document.createElement('div');
+        studentNameEl.className = 'student-name';
+        studentNameEl.textContent = student.name;
+        studentBlock.appendChild(studentNameEl);
+
+        if (studentWarnings.length === 0) {
+            const noWarningsEl = document.createElement('div');
+            noWarningsEl.className = 'no-warnings';
+            noWarningsEl.textContent = 'Нет предупреждений';
+            studentBlock.appendChild(noWarningsEl);
+        } else {
+            const warningsListEl = document.createElement('ul');
+            warningsListEl.className = 'warnings-per-student';
+            studentWarnings.forEach(warning => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="warning-date">${warning.date}</span>
+                    <span class="warning-text">${warning.text}</span>
+                `;
+                warningsListEl.appendChild(li);
+            });
+            studentBlock.appendChild(warningsListEl);
+        }
+        container.appendChild(studentBlock);
+    });
 }
 
-loadWarnings();
+loadGroupedWarnings();

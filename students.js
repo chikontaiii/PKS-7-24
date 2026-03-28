@@ -1,79 +1,24 @@
+// students.js
 import { db } from "./firebase.js";
-import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-const warningsList = document.getElementById('warnings-list');
+const tbody = document.getElementById('homework-body');
 
-async function loadGroupedWarnings() {
-    // 1. Загружаем всех студентов
-    const studentsSnapshot = await getDocs(collection(db, "students"));
-    const students = [];
-    studentsSnapshot.forEach(doc => {
-        students.push({ id: doc.id, name: doc.data().name });
-    });
-    // Сортируем студентов по имени
-    students.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+async function loadHomework() {
+    const snapshot = await getDocs(collection(db, "homework"));
+    tbody.innerHTML = ''; // очищаем
 
-    // 2. Загружаем все предупреждения
-    const q = query(collection(db, "warnings"), orderBy("date", "desc"));
-    const warningsSnapshot = await getDocs(q);
-    const warningsByStudent = {};
-    warningsSnapshot.forEach(doc => {
-        const w = doc.data();
-        const studentName = w.student;
-        if (!warningsByStudent[studentName]) {
-            warningsByStudent[studentName] = [];
-        }
-        // Форматируем дату из YYYY-MM-DD в DD.MM.YYYY
-        let formattedDate = w.date || '';
-        if (formattedDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
-            const [year, month, day] = formattedDate.split('-');
-            formattedDate = `${day}.${month}.${year}`;
-        }
-        warningsByStudent[studentName].push({
-            text: w.warning,
-            date: formattedDate,
-            rawDate: w.date
-        });
-    });
-
-    // 3. Формируем HTML
-    const container = document.getElementById('warnings-list');
-    container.innerHTML = '';
-
-    students.forEach(student => {
-        const studentWarnings = warningsByStudent[student.name] || [];
-        // Сортируем предупреждения внутри студента по дате (новые сверху)
-        studentWarnings.sort((a, b) => (b.rawDate || '').localeCompare(a.rawDate || ''));
-
-        const studentBlock = document.createElement('div');
-        studentBlock.className = 'student-warnings-block';
-
-        // Заголовок с именем студента
-        const studentNameEl = document.createElement('div');
-        studentNameEl.className = 'student-name';
-        studentNameEl.textContent = student.name;
-        studentBlock.appendChild(studentNameEl);
-
-        if (studentWarnings.length === 0) {
-            const noWarningsEl = document.createElement('div');
-            noWarningsEl.className = 'no-warnings';
-            noWarningsEl.textContent = 'Нет предупреждений';
-            studentBlock.appendChild(noWarningsEl);
-        } else {
-            const warningsListEl = document.createElement('ul');
-            warningsListEl.className = 'warnings-per-student';
-            studentWarnings.forEach(warning => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <span class="warning-date">${warning.date}</span>
-                    <span class="warning-text">${warning.text}</span>
-                `;
-                warningsListEl.appendChild(li);
-            });
-            studentBlock.appendChild(warningsListEl);
-        }
-        container.appendChild(studentBlock);
+    snapshot.forEach(doc => {
+        const hw = doc.data();
+        const deadlineClass = hw.deadline < new Date().toISOString().split('T')[0] ? 'urgent' : '';
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td data-label="Предмет" class="homework-subject">${hw.subject || ''}</td>
+            <td data-label="Задание">${hw.task || ''}</td>
+            <td data-label="Дедлайн" class="homework-deadline ${deadlineClass}">${hw.deadline || ''}</td>
+        `;
+        tbody.appendChild(row);
     });
 }
 
-loadGroupedWarnings();
+loadHomework();
