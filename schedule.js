@@ -1,9 +1,22 @@
 const SEMESTER_START = new Date(2026, 8, 1); // 1 сентября 2026
 
 function getWeekTypeForDate(date) {
-    const diffTime = date - SEMESTER_START;
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const weekNumber = Math.floor(diffDays / 7);
+    const start = new Date(SEMESTER_START);
+
+    // делаем старт ближайшим ПОНЕДЕЛЬНИКОМ
+    const startDay = start.getDay();
+    const diffToMonday = (startDay === 0 ? -6 : 1 - startDay);
+    start.setDate(start.getDate() + diffToMonday);
+
+    // делаем текущую дату тоже понедельником своей недели
+    const current = new Date(date);
+    const currentDay = current.getDay();
+    const currentDiff = (currentDay === 0 ? -6 : 1 - currentDay);
+    current.setDate(current.getDate() + currentDiff);
+
+    const diffTime = current - start;
+    const weekNumber = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 7));
+
     return (weekNumber % 2 === 0) ? 'numerator' : 'denominator';
 }
 
