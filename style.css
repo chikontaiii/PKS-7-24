@@ -1352,3 +1352,28 @@ body {
         font-size: 1.3rem;
     }
 }
+
+
+/* Убедимся, что желтая линия под заголовком есть */
+
+.subject-folder h4 {
+    border-bottom: 2px solid #D4AF37;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+
+/* Добавим отступ между блоками */
+
+.subject-folder {
+    margin-bottom: 2rem;
+}
+
+
+/* На мобильных уменьшим отступ */
+
+@media (max-width: 768px) {
+    .subject-folder {
+        margin-bottom: 1.5rem;
+    }
+}
