@@ -16,15 +16,16 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background: #F8F7F4;
+            background: linear-gradient(135deg, #1E2B3A 0%, #2C3E4F 100%);
             color: #2C3E4F;
             line-height: 1.6;
+            min-height: 100vh;
         }
         
         .container {
-            max-width: 1600px;
+            max-width: 1440px;
             margin: 0 auto;
-            padding: 0 4rem;
+            padding: 0 3rem;
         }
         
         .header {
@@ -119,8 +120,9 @@
         }
         
         .nav {
-            background: white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            background: rgba(30, 43, 58, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: none;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -135,7 +137,7 @@
         
         .nav a {
             text-decoration: none;
-            color: #2C3E4F;
+            color: white;
             font-weight: 500;
             font-size: 0.95rem;
             letter-spacing: 0.3px;
@@ -151,7 +153,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #A51C30;
+            background: #D4AF37;
             transition: width 0.3s;
         }
         
@@ -162,36 +164,36 @@
         
         .nav a:hover,
         .nav a.active {
-            color: #A51C30;
+            color: #D4AF37;
         }
         
         .parent-access {
             background: linear-gradient(135deg, #1E2B3A 0%, #2C3E4F 100%);
             color: white;
-            border-radius: 20px;
-            padding: 4rem;
-            margin: 3rem auto;
-            max-width: 1600px;
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem auto;
+            max-width: 1400px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
         
         .warnings-section {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 2rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .warnings-section h4 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
             color: #D4AF37;
         }
-        /* Новые стили для группировки по студентам */
         
         .student-warnings-block {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 1rem;
         }
@@ -203,15 +205,15 @@
         }
         
         .student-name {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #D4AF37;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             letter-spacing: 0.3px;
         }
         
         .no-warnings {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.6);
             font-style: italic;
             padding-left: 0.5rem;
@@ -227,7 +229,7 @@
             display: flex;
             align-items: baseline;
             gap: 1rem;
-            padding: 0.4rem 0;
+            padding: 0.5rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             font-size: 0.9rem;
         }
@@ -237,10 +239,10 @@
         }
         
         .warning-date {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.5);
             background: rgba(0, 0, 0, 0.2);
-            padding: 0.2rem 0.5rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 20px;
             white-space: nowrap;
         }
@@ -531,8 +533,9 @@
                 gap: 1.5rem;
             }
             .parent-access {
-                padding: 1.5rem 1rem;
+                padding: 1.5rem;
                 margin: 1rem;
+                border-radius: 20px;
             }
             .parent-access h3 {
                 font-size: 1.5rem;
@@ -550,6 +553,7 @@
             }
             .warnings-section h4 {
                 font-size: 1.2rem;
+                margin-bottom: 1rem;
             }
             .student-name {
                 font-size: 1rem;
@@ -559,7 +563,8 @@
                 gap: 0.3rem;
             }
             .warning-date {
-                font-size: 0.65rem;
+                font-size: 0.7rem;
+                white-space: nowrap;
             }
             .warning-text {
                 font-size: 0.85rem;
