@@ -188,54 +188,67 @@
             margin-bottom: 1rem;
             color: #D4AF37;
         }
+        /* Новые стили для группировки по студентам */
         
-        .warnings-compact {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .warnings-compact li {
-            display: flex;
-            flex-direction: column;
-            padding: 0.9rem 0;
+        .student-warnings-block {
+            margin-bottom: 1.5rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
         }
         
-        .warnings-compact li:last-child {
+        .student-warnings-block:last-child {
             border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
         
-        .warning-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 0.4rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .warning-student {
+        .student-name {
+            font-size: 1.1rem;
             font-weight: 700;
-            font-size: 1rem;
             color: #D4AF37;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.3px;
+        }
+        
+        .no-warnings {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+            padding-left: 0.5rem;
+        }
+        
+        .warnings-per-student {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .warnings-per-student li {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.9rem;
+        }
+        
+        .warnings-per-student li:last-child {
+            border-bottom: none;
         }
         
         .warning-date {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.5);
             background: rgba(0, 0, 0, 0.2);
             padding: 0.2rem 0.5rem;
             border-radius: 20px;
+            white-space: nowrap;
         }
         
         .warning-text {
-            font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.85);
+            flex: 1;
             line-height: 1.4;
-            border-left: 2px solid #D4AF37;
-            padding-left: 0.75rem;
-            margin-top: 0.2rem;
         }
         
         .parent-grid {
@@ -533,15 +546,17 @@
                 margin: 1rem;
             }
             .warnings-section {
-                padding: 1.2rem;
-                margin-bottom: 1.5rem;
+                padding: 1rem;
             }
             .warnings-section h4 {
                 font-size: 1.2rem;
-                margin-bottom: 0.8rem;
             }
-            .warning-student {
-                font-size: 0.9rem;
+            .student-name {
+                font-size: 1rem;
+            }
+            .warnings-per-student li {
+                flex-wrap: wrap;
+                gap: 0.3rem;
             }
             .warning-date {
                 font-size: 0.65rem;
@@ -555,9 +570,6 @@
             .parent-card h4 {
                 font-size: 1.3rem;
             }
-            .parent-card p {
-                font-size: 0.95rem;
-            }
             .footer {
                 padding: 1.5rem 0;
                 margin-top: 3rem;
@@ -566,18 +578,6 @@
                 flex-direction: column;
                 text-align: center;
                 gap: 0.8rem;
-            }
-            .footer-copyright {
-                font-size: 0.75rem;
-            }
-            .footer-dev {
-                padding: 0.25rem 0.8rem;
-            }
-            .dev-label {
-                font-size: 0.7rem;
-            }
-            .dev-name {
-                font-size: 0.85rem;
             }
         }
         
@@ -594,16 +594,11 @@
             .login-card h2 {
                 font-size: 1.3rem;
             }
-            .warning-info {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.2rem;
-            }
-            .warning-date {
-                align-self: flex-start;
-            }
             .parent-access h3 {
                 font-size: 1.3rem;
+            }
+            .warning-date {
+                white-space: normal;
             }
         }
     </style>
@@ -667,8 +662,8 @@
                 <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; color: rgba(255,255,255,0.8);">Следите за академическими успехами вашего студента</p>
 
                 <div class="warnings-section">
-                    <h4>⚠️ Последние предупреждения</h4>
-                    <div id="warnings-list" class="warnings-compact"></div>
+                    <h4>⚠️ Предупреждения по студентам</h4>
+                    <div id="warnings-list"></div>
                 </div>
 
                 <div class="parent-grid">
