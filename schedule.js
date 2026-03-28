@@ -96,7 +96,17 @@ function loadScheduleForDay(dayOffset, containerId) {
     const targetDate = new Date();
     targetDate.setDate(targetDate.getDate() + dayOffset);
 
-    const weekType = getWeekTypeForDate(targetDate);
+    let weekType = getWeekTypeForDate(targetDate);
+
+    // 🔥 ФИКС: если сегодня воскресенье и смотрим "завтра"
+    if (dayOffset === 1) {
+        const today = new Date();
+        if (today.getDay() === 0) {
+            // вручную переключаем на следующую неделю
+            weekType = weekType === 'numerator' ? 'denominator' : 'numerator';
+        }
+    }
+
     const schedule = weekType === 'numerator' ? numeratorSchedule : denominatorSchedule;
 
     const dayOfWeek = targetDate.getDay();
@@ -107,7 +117,7 @@ function loadScheduleForDay(dayOffset, containerId) {
 
     container.innerHTML = '';
 
-    // подпись для "завтра"
+    // подпись "следующая неделя"
     if (dayOffset === 1) {
         const todayWeekType = getWeekTypeForDate(new Date());
 
