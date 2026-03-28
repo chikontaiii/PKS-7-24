@@ -17,15 +17,15 @@
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #1E2B3A 0%, #2C3E4F 100%);
-            color: #2C3E4F;
+            color: #fff;
             line-height: 1.6;
             min-height: 100vh;
         }
         
         .container {
-            max-width: 1440px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 3rem;
+            padding: 0 2rem;
         }
         
         .header {
@@ -166,15 +166,10 @@
         .nav a.active {
             color: #D4AF37;
         }
+        /* Основной контент (без внешнего контейнера) */
         
-        .parent-access {
-            background: linear-gradient(135deg, #1E2B3A 0%, #2C3E4F 100%);
-            color: white;
-            border-radius: 24px;
-            padding: 3rem;
-            margin: 2rem auto;
-            max-width: 1400px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        .main-content {
+            padding: 2rem 0;
         }
         
         .warnings-section {
@@ -532,22 +527,6 @@
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
             }
-            .parent-access {
-                padding: 1.5rem;
-                margin: 1rem;
-                border-radius: 20px;
-            }
-            .parent-access h3 {
-                font-size: 1.5rem;
-            }
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-            .login-card {
-                padding: 2rem;
-                margin: 1rem;
-            }
             .warnings-section {
                 padding: 1rem;
             }
@@ -575,6 +554,14 @@
             .parent-card h4 {
                 font-size: 1.3rem;
             }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            .login-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
             .footer {
                 padding: 1.5rem 0;
                 margin-top: 3rem;
@@ -597,9 +584,6 @@
                 padding: 1.5rem;
             }
             .login-card h2 {
-                font-size: 1.3rem;
-            }
-            .parent-access h3 {
                 font-size: 1.3rem;
             }
             .warning-date {
@@ -661,47 +645,45 @@
             </div>
         </nav>
 
-        <div class="container">
-            <div class="parent-access fade-in">
-                <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; color: white;">👪 Родительский портал</h3>
-                <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; color: rgba(255,255,255,0.8);">Следите за академическими успехами вашего студента</p>
+        <div class="container main-content">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; color: white;">👪 Родительский портал</h3>
+            <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; color: rgba(255,255,255,0.8);">Следите за академическими успехами вашего студента</p>
 
-                <div class="warnings-section">
-                    <h4>⚠️ Предупреждения по студентам</h4>
-                    <div id="warnings-list"></div>
-                </div>
+            <div class="warnings-section">
+                <h4>⚠️ Предупреждения по студентам</h4>
+                <div id="warnings-list"></div>
+            </div>
 
-                <div class="parent-grid">
-                    <div class="parent-card">
-                        <h4>📊 Успеваемость</h4>
-                        <p>Просмотр оценок, посещаемости и статуса обучения в реальном времени</p>
-                        <div class="parent-contact">
-                            <span>🔐 Скоро...</span>
-                        </div>
-                    </div>
-                    <div class="parent-card">
-                        <h4>📢 Объявления</h4>
-                        <p>Важные новости, родительские собрания и обновления от администрации</p>
-                        <div class="parent-contact">
-                            <span>Ожидайте...</span>
-                        </div>
-                    </div>
-                    <div class="parent-card">
-                        <h4>📞 Контакты</h4>
-                        <p>Куратор группы: Бардыгулова Н.Д.</p>
-                        <p style="font-size: 0.9rem;">Преподаватель спецдисциплин</p>
-                        <div class="parent-contact">
-                            <span>📞 +996 703 408 966</span>
-                        </div>
-                        <div class="parent-contact">
-                            <span>✉️ Только WhatsApp</span>
-                        </div>
+            <div class="parent-grid">
+                <div class="parent-card">
+                    <h4>📊 Успеваемость</h4>
+                    <p>Просмотр оценок, посещаемости и статуса обучения в реальном времени</p>
+                    <div class="parent-contact">
+                        <span>🔐 Скоро...</span>
                     </div>
                 </div>
-
-                <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
-                    <button class="btn" style="background: transparent; border: 2px solid #D4AF37; color: white;">Часто задаваемые вопросы  СКОРО...</button>
+                <div class="parent-card">
+                    <h4>📢 Объявления</h4>
+                    <p>Важные новости, родительские собрания и обновления от администрации</p>
+                    <div class="parent-contact">
+                        <span>Ожидайте...</span>
+                    </div>
                 </div>
+                <div class="parent-card">
+                    <h4>📞 Контакты</h4>
+                    <p>Куратор группы: Бардыгулова Н.Д.</p>
+                    <p style="font-size: 0.9rem;">Преподаватель спецдисциплин</p>
+                    <div class="parent-contact">
+                        <span>📞 +996 703 408 966</span>
+                    </div>
+                    <div class="parent-contact">
+                        <span>✉️ Только WhatsApp</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+                <button class="btn" style="background: transparent; border: 2px solid #D4AF37; color: white;">Часто задаваемые вопросы  СКОРО...</button>
             </div>
         </div>
     </div>
