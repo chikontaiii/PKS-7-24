@@ -1377,3 +1377,14 @@ body {
         margin-bottom: 1.5rem;
     }
 }
+
+.week-type-badge-tomorrow {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #D4AF37;
+    margin: 0.5rem 0;
+    padding: 0.2rem 0.5rem;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 20px;
+}

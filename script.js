@@ -1,119 +1,170 @@
-// 1. Импорты Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+// schedule.js – автоматическое расписание на сегодня и завтра с учётом смены недели
 
-// 2. Ключи Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyDNrR5Mxd9xG3C5354EF96r7CKWZme9FXM",
-    authDomain: "pks-7-24-portal.firebaseapp.com",
-    projectId: "pks-7-24-portal",
-    storageBucket: "pks-7-24-portal.firebasestorage.app",
-    messagingSenderId: "657797301237",
-    appId: "1:657797301237:web:9be5433f4444b3896d56bc"
+const SEMESTER_START = new Date(2026, 8, 1); // 1 сентября 2026
+
+const bellSchedule = [
+    { pair: 0, start: "08:35", end: "09:55", break: 5 },
+    { pair: 1, start: "10:00", end: "11:20", break: 5 },
+    { pair: 2, start: "11:25", end: "12:45", break: 20 },
+    { pair: 3, start: "13:05", end: "14:25", break: 5 },
+    { pair: 4, start: "14:30", end: "15:50", break: 5 },
+    { pair: 5, start: "15:55", end: "17:15", break: 5 },
+    { pair: 6, start: "17:20", end: "18:40", break: 5 },
+    { pair: 7, start: "18:45", end: "20:05", break: 5 }
+];
+
+const numeratorSchedule = {
+    1: [ // Понедельник
+        { subject: "КГ 2пд", time: "14:30 - 15:50", room: "Ауд. 302" },
+        { subject: "КГ 1пд / ТСИ 2пд", time: "15:55 - 17:15", room: "Ауд. 302 / Ауд. 305" },
+        { subject: "ТА 1пд", time: "17:20 - 18:40", room: "Лаб. 302" },
+        { subject: "КГ 1пд", time: "18:45 - 20:05", room: "Ауд. 302" }
+    ],
+    2: [ // Вторник
+        { subject: "ТСИ 1пд", time: "8:35 - 9:55", room: "Ауд. 305" },
+        { subject: "ТСИ", time: "10:00 - 11:20", room: "Ауд. 305" },
+        { subject: "Физ.воспитание", time: "11:25 - 12:45", room: "Ауд. 02" },
+        { subject: "БЖД", time: "13:05 - 14:25", room: "Ауд. 106" },
+        { subject: "ТА 2пд", time: "14:30 - 15:50", room: "Ауд. 302" },
+    ],
+    3: [ // Среда
+        { subject: "Кыргызский язык", time: "13:05 - 14:25", room: "Ауд. 304" },
+        { subject: "История Кыргызстана", time: "14:30 - 15:50", room: "Ауд. 208" },
+    ],
+    4: [ // Четверг
+        { subject: "КГ", time: "11:25 - 12:45", room: "Ауд. 302" },
+        { subject: "География", time: "13:05 - 14:25", room: "Ауд. 206" },
+        { subject: "ТА", time: "14:30 - 15:50", room: "Ауд. 302" },
+        { subject: "ТА 1пд", time: "15:55 - 17:15", room: "Ауд. 302" }
+    ],
+    5: [ // Пятница
+        { subject: "История Кыргызстана", time: "10:00 - 11:20", room: "Ауд. 208" },
+        { subject: "Кыргызский язык", time: "11:25 - 12:45", room: "Ауд. 304" },
+        { subject: "Английский язык", time: "13:05 - 14:25", room: "Ауд. 214 / Ауд. 216" },
+    ],
+    6: [ // Суббота – выходной
+        { subject: "Выходной", time: "", room: "" }
+    ],
+    0: [ // Воскресенье – выходной
+        { subject: "Выходной", time: "", room: "" }
+    ]
 };
 
-// 3. Инициализация Firebase
-console.log("Firebase инициализация...");
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-console.log("Firebase готов:", auth);
+const denominatorSchedule = {
+    1: [ // Понедельник
+        { subject: "КГ 2пд", time: "14:30 - 15:50", room: "Ауд. 302" },
+        { subject: "КГ 1пд / ТСИ 2пд", time: "15:55 - 17:15", room: "Ауд. 302 / Ауд. 305" },
+        { subject: "ТА 2пд", time: "17:20 - 18:40", room: "Лаб. 302" },
+        { subject: "КГ 2пд", time: "18:45 - 20:05", room: "Ауд. 302" }
+    ],
+    2: [ // Вторник
+        { subject: "ТСИ 1пд", time: "8:35 - 9:55", room: "Ауд. 305" },
+        { subject: "ТСИ", time: "10:00 - 11:20", room: "Ауд. 305" },
+        { subject: "Физ.воспитание", time: "11:25 - 12:45", room: "Ауд. 02" },
+        { subject: "БЖД", time: "13:05 - 14:25", room: "Ауд. 106" },
+        { subject: "ТА 2пд", time: "14:30 - 15:50", room: "Ауд. 302" },
+    ],
+    3: [ // Среда
+        { subject: "Кыргызский язык", time: "13:05 - 14:25", room: "Ауд. 304" },
+        { subject: "История Кыргызстана", time: "14:30 - 15:50", room: "Ауд. 208" },
+    ],
+    4: [ // Четверг
+        { subject: "ТСИ", time: "10:00 - 11:20", room: "Ауд. 305" },
+        { subject: "КГ", time: "11:25 - 12:45", room: "Ауд. 302" },
+        { subject: "География", time: "13:05 - 14:25", room: "Ауд. 206" },
+        { subject: "ТА", time: "14:30 - 15:50", room: "Ауд. 302" },
+        { subject: "ТА 1пд", time: "15:55 - 17:15", room: "Ауд. 302" }
+    ],
+    5: [ // Пятница
+        { subject: "История Кыргызстана", time: "10:00 - 11:20", room: "Ауд. 208" },
+        { subject: "Кыргызский язык", time: "11:25 - 12:45", room: "Ауд. 304" },
+        { subject: "Английский язык", time: "13:05 - 14:25", room: "Ауд. 214 / Ауд. 216" },
+    ],
+    6: [ // Суббота – выходной
+        { subject: "Выходной", time: "", room: "" }
+    ],
+    0: [ // Воскресенье – выходной
+        { subject: "Выходной", time: "", room: "" }
+    ]
+};
 
-// 4. Элементы интерфейса
-const loginScreen = document.getElementById('login-screen');
-const appContent = document.getElementById('app-content');
-const emailInput = document.getElementById('email-input');
-const passwordInput = document.getElementById('password-input');
-const loginBtn = document.getElementById('login-btn');
-const loginError = document.getElementById('login-error');
+// Функция определения типа недели для произвольной даты
+function getWeekTypeForDate(date) {
+    const diffTime = date - SEMESTER_START;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const weekNumber = Math.floor(diffDays / 7);
+    return (weekNumber % 2 === 0) ? 'numerator' : 'denominator';
+}
 
-// 5. Проверяем, что нашли все элементы
-console.log("Элементы:", {
-    loginScreen: !!loginScreen,
-    appContent: !!appContent,
-    emailInput: !!emailInput,
-    passwordInput: !!passwordInput,
-    loginBtn: !!loginBtn,
-    loginError: !!loginError
-});
+// Функция загрузки расписания для конкретного дня (dayOffset: 0 – сегодня, 1 – завтра)
+function loadScheduleForDay(dayOffset, containerId, showWeekType = true) {
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + dayOffset);
+    const weekType = getWeekTypeForDate(targetDate);
+    const schedule = weekType === 'numerator' ? numeratorSchedule : denominatorSchedule;
+    const dayOfWeek = targetDate.getDay();
+    const scheduleForDay = schedule[dayOfWeek] || schedule[0];
+    const container = document.getElementById(containerId);
+    if (!container) return;
 
-// 6. Функция ВХОДА
-if (loginBtn) {
-    console.log("Кнопка входа найдена, добавляем обработчик");
+    container.innerHTML = '';
 
-    // Удаляем старые обработчики, чтобы не было дублирования
-    loginBtn.replaceWith(loginBtn.cloneNode(true));
-
-    // Получаем новую ссылку на кнопку
-    const newLoginBtn = document.getElementById('login-btn');
-
-    newLoginBtn.addEventListener('click', async function(e) {
-        e.preventDefault(); // Предотвращаем любые стандартные действия
-        console.log("Клик по кнопке входа!");
-
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-
-        console.log("Email:", email);
-        console.log("Пароль:", password ? "введен" : "пустой");
-
-        loginError.style.display = 'none';
-        newLoginBtn.textContent = 'Вход...';
-        newLoginBtn.disabled = true; // Блокируем кнопку
-
-        try {
-            console.log("Пытаемся войти...");
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            console.log("Успешный вход!", userCredential.user.email);
-
-            // Не скрываем логин здесь - это сделает onAuthStateChanged
-        } catch (error) {
-            console.error("Ошибка входа:", error);
-
-            loginError.style.display = 'block';
-
-            // Понятное сообщение об ошибке
-            if (error.code === 'auth/user-not-found') {
-                loginError.textContent = 'Пользователь не найден';
-            } else if (error.code === 'auth/wrong-password') {
-                loginError.textContent = 'Неверный пароль';
-            } else if (error.code === 'auth/invalid-email') {
-                loginError.textContent = 'Неверный формат email';
-            } else if (error.code === 'auth/too-many-requests') {
-                loginError.textContent = 'Слишком много попыток, попробуйте позже';
-            } else {
-                loginError.textContent = 'Ошибка входа: ' + error.message;
-            }
-
-            newLoginBtn.textContent = 'Войти';
-            newLoginBtn.disabled = false;
+    // Если нужно показать тип недели (например, для завтрашнего дня, если он отличается от сегодняшнего)
+    if (showWeekType) {
+        const todayWeekType = getWeekTypeForDate(new Date());
+        if (weekType !== todayWeekType) {
+            const weekTypeText = weekType === 'numerator' ? 'Числитель (Белая)' : 'Знаменатель (Чёрная)';
+            const weekLabel = document.createElement('div');
+            weekLabel.className = 'week-type-badge-tomorrow';
+            weekLabel.textContent = `Следующая неделя — ${weekTypeText}`;
+            container.appendChild(weekLabel);
         }
+    }
+
+    scheduleForDay.forEach(item => {
+        const scheduleItem = document.createElement('div');
+        scheduleItem.className = 'schedule-item';
+        scheduleItem.innerHTML = `
+            <div>
+                <div class="schedule-subject">${item.subject}</div>
+                <div class="schedule-time">${item.time}</div>
+            </div>
+            <span class="schedule-room">${item.room}</span>
+        `;
+        container.appendChild(scheduleItem);
     });
 }
 
-// 7. Слушатель состояния авторизации
-onAuthStateChanged(auth, async(user) => {
-    console.log("Состояние авторизации изменилось:", user ? user.email : "нет пользователя");
-
-    if (user) {
-        // Человек вошел!
-        console.log("Пользователь авторизован:", user.email);
-        if (loginScreen) loginScreen.classList.remove('active');
-        if (appContent) appContent.classList.add('active');
-    } else {
-        // Человек не вошел
-        console.log("Пользователь не авторизован");
-        if (loginScreen) loginScreen.classList.add('active');
-        if (appContent) appContent.classList.remove('active');
-    }
-});
-
-// 8. Функция выхода (добавьте кнопку выхода позже)
-window.logout = function() {
-    signOut(auth).then(() => {
-        console.log("Выход выполнен");
-    }).catch((error) => {
-        console.error("Ошибка выхода:", error);
+function loadBellSchedule() {
+    const container = document.getElementById('bell-schedule');
+    if (!container) return;
+    container.innerHTML = '';
+    bellSchedule.forEach(item => {
+        const bellItem = document.createElement('div');
+        bellItem.className = 'bell-item';
+        bellItem.innerHTML = `
+            <div>
+                <strong>${item.pair} пара:</strong> ${item.start} – ${item.end}
+                <span style="margin-left: 20px;">перемена ${item.break} мин</span>
+            </div>
+        `;
+        container.appendChild(bellItem);
     });
-};
+}
+
+function loadWeekInfo() {
+    const today = new Date();
+    const weekType = getWeekTypeForDate(today);
+    const weekTypeText = weekType === 'numerator' ? 'Числитель (Белая)' : 'Знаменатель (Чёрная)';
+    const badge = document.getElementById('week-type-badge');
+    if (badge) {
+        badge.textContent = `Текущая неделя: ${weekTypeText}`;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadScheduleForDay(0, 'today-schedule', false); // для сегодня не показываем подпись о смене недели
+    loadScheduleForDay(1, 'tomorrow-schedule', true); // для завтра показываем, если неделя отличается
+    loadBellSchedule();
+    loadWeekInfo();
+});
