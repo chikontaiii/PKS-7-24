@@ -96,17 +96,7 @@ function loadScheduleForDay(dayOffset, containerId) {
     const targetDate = new Date();
     targetDate.setDate(targetDate.getDate() + dayOffset);
 
-    let weekType = getWeekTypeForDate(targetDate);
-
-    // 🔥 ФИКС: если сегодня воскресенье и смотрим "завтра"
-    if (dayOffset === 1) {
-        const today = new Date();
-        if (today.getDay() === 0) {
-            // вручную переключаем на следующую неделю
-            weekType = weekType === 'numerator' ? 'denominator' : 'numerator';
-        }
-    }
-
+    const weekType = getWeekTypeForDate(targetDate);
     const schedule = weekType === 'numerator' ? numeratorSchedule : denominatorSchedule;
 
     const dayOfWeek = targetDate.getDay();
@@ -117,20 +107,17 @@ function loadScheduleForDay(dayOffset, containerId) {
 
     container.innerHTML = '';
 
-    // подпись "следующая неделя"
-    if (dayOffset === 1) {
-        const todayWeekType = getWeekTypeForDate(new Date());
-
-        if (weekType !== todayWeekType) {
-            const weekLabel = document.createElement('div');
-            weekLabel.className = 'week-type-badge-tomorrow';
-            weekLabel.textContent = `Следующая неделя — ${
-                weekType === 'numerator'
-                    ? 'Числитель (Белая)'
-                    : 'Знаменатель (Чёрная)'
-            }`;
-            container.appendChild(weekLabel);
-        }
+    // 🔥 Выводим плашку ТОЛЬКО если сегодня воскресенье и мы смотрим расписание на "завтра"
+    const today = new Date();
+    if (dayOffset === 1 && today.getDay() === 0) {
+        const weekLabel = document.createElement('div');
+        weekLabel.className = 'week-type-badge-tomorrow';
+        weekLabel.textContent = `Следующая неделя — ${
+            weekType === 'numerator'
+                ? 'Числитель (Белая)'
+                : 'Знаменатель (Чёрная)'
+        }`;
+        container.appendChild(weekLabel);
     }
 
     scheduleForDay.forEach(item => {
