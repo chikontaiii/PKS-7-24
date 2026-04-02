@@ -2,7 +2,6 @@ import { db } from "./firebase.js";
 import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 let allAbsences = [];
-let allWarnings = [];
 let allStudents = [];
 
 async function loadData() {
@@ -10,11 +9,6 @@ async function loadData() {
     const qAbs = query(collection(db, "absences"), orderBy("date", "desc"));
     const snapAbs = await getDocs(qAbs);
     allAbsences = snapAbs.docs.map(doc => doc.data());
-
-    // Загружаем предупреждения
-    const qWarn = query(collection(db, "warnings"), orderBy("date", "desc"));
-    const snapWarn = await getDocs(qWarn);
-    allWarnings = snapWarn.docs.map(doc => doc.data());
 
     // Загружаем студентов
     const snapStudents = await getDocs(collection(db, "students"));
@@ -97,7 +91,7 @@ function renderListView(filter) {
                     <li class="absence-item">
                         <span class="student-name">${escapeHtml(item.student)}</span>
                         <div class="absence-details">
-                            <span class="absence-pair">${item.pair} пара (${item.hours} ч.)</span>
+                            <span class="absence-pair">${item.pair}П (${item.hours} ч.)</span>
                             ${item.reason ? `<span class="absence-reason">${escapeHtml(item.reason)}</span>` : ''}
                         </div>
                     </li>
@@ -107,42 +101,33 @@ function renderListView(filter) {
     `).join('');
 }
 
-// ========== ЖУРНАЛ (студенты × даты) ==========
+// ========== ЖУРНАЛ (только пропуски, формат "1П", "2П") ==========
 function renderJournal() {
-    // Собираем все уникальные даты из пропусков и НБ
+    // Собираем все уникальные даты из пропусков
     const allDatesSet = new Set();
     allAbsences.forEach(a => allDatesSet.add(a.date));
-    allWarnings.forEach(w => allDatesSet.add(w.date));
     const allDates = Array.from(allDatesSet).sort((a,b) => new Date(a) - new Date(b));
     if (allDates.length === 0) {
         document.getElementById('journalContainer').innerHTML = '<div class="empty-message">Нет данных для отображения</div>';
         return;
     }
 
-    // Создаём карту: студент → дата → { absence: true/false, warning: true/false, pairText: '' }
+    // Создаём карту: студент → дата → массив пар (или просто строка)
     const journalData = {};
     allStudents.forEach(student => {
         journalData[student] = {};
     });
 
+    // Группируем пропуски по студенту и дате, собираем номера пар
     allAbsences.forEach(absence => {
         const student = absence.student;
+        const date = absence.date;
+        const pair = absence.pair;
         if (journalData[student]) {
-            journalData[student][absence.date] = {
-                ...journalData[student][absence.date],
-                absence: true,
-                pair: absence.pair
-            };
-        }
-    });
-
-    allWarnings.forEach(warning => {
-        const student = warning.student;
-        if (journalData[student]) {
-            journalData[student][warning.date] = {
-                ...journalData[student][warning.date],
-                warning: true
-            };
+            if (!journalData[student][date]) {
+                journalData[student][date] = [];
+            }
+            journalData[student][date].push(pair);
         }
     });
 
@@ -156,15 +141,17 @@ function renderJournal() {
     allStudents.forEach(student => {
         html += `<tr><td class="student-col">${escapeHtml(student)}</td>`;
         allDates.forEach(date => {
-            const cell = journalData[student][date] || {};
+            const pairs = journalData[student][date];
             let content = '';
-            if (cell.absence) {
-                content = `<span class="absence-mark">${cell.pair} п</span>`;
+            if (pairs && pairs.length > 0) {
+                // Сортируем пары по возрастанию
+                pairs.sort((a,b) => a - b);
+                // Формируем строку вида "1П, 2П"
+                content = pairs.map(p => `${p}П`).join(', ');
+                content = `<span class="absence-mark">${content}</span>`;
+            } else {
+                content = '<span class="empty-mark">—</span>';
             }
-            if (cell.warning) {
-                content += (content ? '<br>' : '') + `<span class="warning-mark">НБ</span>`;
-            }
-            if (!content) content = '<span class="empty-mark">—</span>';
             html += `<td>${content}</td>`;
         });
         html += '</tr>';
@@ -173,7 +160,7 @@ function renderJournal() {
     document.getElementById('journalContainer').innerHTML = html;
 }
 
-// ========== ПЕРЕКЛЮЧЕНИЕ ВИДОВ ==========
+// Переключение видов
 document.getElementById('listViewBtn').addEventListener('click', () => {
     document.getElementById('listViewBtn').classList.add('active');
     document.getElementById('journalViewBtn').classList.remove('active');
@@ -190,7 +177,7 @@ document.getElementById('journalViewBtn').addEventListener('click', () => {
     renderJournal();
 });
 
-// Фильтры (для списка) – при смене фильтра обновляем только список
+// Фильтры для списка
 document.querySelectorAll('.filters button').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
@@ -201,5 +188,4 @@ document.querySelectorAll('.filters button').forEach(btn => {
     });
 });
 
-// Инициализация
 loadData();
