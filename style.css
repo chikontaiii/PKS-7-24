@@ -2053,3 +2053,12 @@ body {
         gap: 1rem;
     }
 }
+
+.absence-pair {
+    background: rgba(165, 28, 48, 0.1);
+    color: #A51C30;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}

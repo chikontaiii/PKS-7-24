@@ -155,27 +155,29 @@ window.addAbsence = async function() {
     const studentSelect = document.getElementById('absence-student');
     const student = studentSelect.value;
     const date = document.getElementById('absence-date').value;
-    const hours = parseFloat(document.getElementById('absence-hours').value) || 0;
+    const pair = parseInt(document.getElementById('absence-pair').value);
     const reason = document.getElementById('absence-reason').value.trim();
 
-    if (!student || !date) {
-        alert('Выберите студента и укажите дату');
+    if (!student || !date || !pair) {
+        alert('Выберите студента, дату и пару');
         return;
     }
+
+    const hours = pair * 2; // 1 пара = 2 часа
 
     try {
         await addDoc(collection(db, "absences"), {
             student: student,
             date: date,
+            pair: pair,
             hours: hours,
             reason: reason || '',
             createdAt: new Date().toISOString()
         });
         alert('Пропуск добавлен!');
-        // Очистка только причины и часов, студент и дата остаются для удобства
-        document.getElementById('absence-hours').value = '2';
         document.getElementById('absence-reason').value = '';
     } catch (error) {
+        console.error(error);
         alert('Ошибка: ' + error.message);
     }
 };

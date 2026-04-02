@@ -17,12 +17,12 @@ function getActiveFilter() {
 }
 
 function updateStats() {
-    const total = allAbsences.length;
+    const totalPairs = allAbsences.length;
     const totalHours = allAbsences.reduce((sum, a) => sum + (a.hours || 0), 0);
-    const avg = total > 0 ? (totalHours / total).toFixed(1) : 0;
-    document.getElementById('totalAbsences').innerText = total;
+    document.getElementById('totalAbsences').innerText = totalPairs;
     document.getElementById('totalHours').innerText = totalHours;
-    document.getElementById('avgHours').innerText = avg;
+    const avgHours = totalPairs > 0 ? (totalHours / totalPairs).toFixed(1) : 0;
+    document.getElementById('avgHours').innerText = avgHours;
 }
 
 function filterAbsencesByPeriod(period) {
@@ -83,7 +83,7 @@ function renderByFilter(filter) {
                     <li class="absence-item">
                         <span class="student-name">${escapeHtml(item.student)}</span>
                         <div class="absence-details">
-                            ${item.hours ? `<span class="absence-hours">${item.hours} ч.</span>` : ''}
+                            <span class="absence-pair">${item.pair} пара (${item.hours} ч.)</span>
                             ${item.reason ? `<span class="absence-reason">${escapeHtml(item.reason)}</span>` : ''}
                         </div>
                     </li>
