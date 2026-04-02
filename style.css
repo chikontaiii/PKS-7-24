@@ -167,6 +167,16 @@ body {
     /* ВОТ ЭТО ФИКСИТ ВСЁ */
 }
 
+.role-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    /* круг */
+    object-fit: cover;
+    /* чтобы не растягивало */
+    border: 2px solid #D4AF37;
+}
+
 .card {
     background: white;
     border-radius: 20px;
