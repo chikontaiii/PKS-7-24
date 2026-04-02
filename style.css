@@ -154,11 +154,17 @@ body {
     color: #A51C30;
 }
 
+.card {
+    height: fit-content;
+}
+
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     margin: 3rem 0;
+    align-items: start;
+    /* ВОТ ЭТО ФИКСИТ ВСЁ */
 }
 
 .card {
