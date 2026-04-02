@@ -170,10 +170,10 @@ body {
 .role-avatar {
     width: 50px;
     height: 50px;
+    min-width: 50px;
+    /* важно для flex */
     border-radius: 50%;
-    /* круг */
     object-fit: cover;
-    /* чтобы не растягивало */
     border: 2px solid #D4AF37;
 }
 
