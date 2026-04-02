@@ -163,7 +163,7 @@ window.addAbsence = async function() {
         return;
     }
 
-    const hours = pair * 2; // 1 пара = 2 часа
+    const hours = 2;
 
     try {
         await addDoc(collection(db, "absences"), {
