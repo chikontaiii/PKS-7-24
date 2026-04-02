@@ -2062,3 +2062,99 @@ body {
     font-size: 0.8rem;
     font-weight: 600;
 }
+
+или для журнала */ .view-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.view-toggle button {
+    background: white;
+    border: 1px solid #E0E0E0;
+    border-radius: 40px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.view-toggle button.active {
+    background: #A51C30;
+    border-color: #A51C30;
+    color: white;
+}
+
+.journal-container {
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+.journal-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 600px;
+}
+
+.journal-table th,
+.journal-table td {
+    border: 1px solid #E0E0E0;
+    padding: 8px 6px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.journal-table th {
+    background: #1E2B3A;
+    color: white;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+}
+
+.journal-table td {
+    background: white;
+}
+
+.journal-table .student-col {
+    font-weight: 600;
+    background: #F8F7F4;
+    text-align: left;
+    position: sticky;
+    left: 0;
+    background-color: #F8F7F4;
+}
+
+.absence-mark {
+    background: rgba(165, 28, 48, 0.15);
+    color: #A51C30;
+    font-weight: 600;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 2px 6px;
+}
+
+.warning-mark {
+    background: rgba(212, 175, 55, 0.2);
+    color: #D4AF37;
+    font-weight: 600;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 2px 6px;
+}
+
+.empty-mark {
+    color: #ccc;
+}
+
+@media (max-width: 768px) {
+    .journal-table {
+        font-size: 0.75rem;
+    }
+    .journal-table th,
+    .journal-table td {
+        padding: 6px 4px;
+    }
+}
