@@ -132,6 +132,57 @@ window.addWarning = async function() {
     }
 };
 
+// ========== ПРОПУСКИ (ОТСУТСТВИЯ) ==========
+// Загрузка студентов для выпадающего списка пропусков
+async function loadStudentsForAbsence() {
+    const select = document.getElementById('absence-student');
+    if (!select) return;
+    const snapshot = await getDocs(collection(db, "students"));
+    const students = [];
+    snapshot.forEach(doc => students.push({ id: doc.id, name: doc.data().name }));
+    students.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+    select.innerHTML = '<option value="">-- Выберите студента --</option>';
+    students.forEach(student => {
+        const option = document.createElement('option');
+        option.value = student.name;
+        option.textContent = student.name;
+        select.appendChild(option);
+    });
+}
+
+// Добавление пропуска
+window.addAbsence = async function() {
+    const studentSelect = document.getElementById('absence-student');
+    const student = studentSelect.value;
+    const date = document.getElementById('absence-date').value;
+    const hours = parseFloat(document.getElementById('absence-hours').value) || 0;
+    const reason = document.getElementById('absence-reason').value.trim();
+
+    if (!student || !date) {
+        alert('Выберите студента и укажите дату');
+        return;
+    }
+
+    try {
+        await addDoc(collection(db, "absences"), {
+            student: student,
+            date: date,
+            hours: hours,
+            reason: reason || '',
+            createdAt: new Date().toISOString()
+        });
+        alert('Пропуск добавлен!');
+        // Очистка только причины и часов, студент и дата остаются для удобства
+        document.getElementById('absence-hours').value = '2';
+        document.getElementById('absence-reason').value = '';
+    } catch (error) {
+        alert('Ошибка: ' + error.message);
+    }
+};
+
+// Вызвать загрузку студентов для пропусков при инициализации
+loadStudentsForAbsence();
+
 // ========== ЗАГРУЗКА ФАЙЛОВ ==========
 const PROXY_URL = 'https://pks-upload-proxy-qear.vercel.app/api/upload';
 
