@@ -1801,3 +1801,255 @@ body {
         gap: 0.8rem;
     }
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #F8F7F4;
+    color: #2C3E4F;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.header {
+    background: linear-gradient(135deg, #1E2B3A 0%, #2C3E4F 100%);
+    color: white;
+    padding: 1.5rem 0;
+    border-bottom: 4px solid #A51C30;
+    position: relative;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #A51C30, #D4AF37, #A51C30);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.site-logo {
+    width: 50px;
+    height: auto;
+}
+
+.logo h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.logo h1 span {
+    color: #D4AF37;
+}
+
+.nav {
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    padding: 0.8rem 0;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #2C3E4F;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav a.active,
+.nav a:hover {
+    color: #A51C30;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.stat-card h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #A51C30;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1E2B3A;
+}
+
+.filters {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.filters button {
+    background: white;
+    border: 1px solid #E0E0E0;
+    border-radius: 40px;
+    padding: 0.5rem 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filters button.active {
+    background: #A51C30;
+    border-color: #A51C30;
+    color: white;
+}
+
+.absence-day {
+    background: white;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.absence-day-header {
+    background: #1E2B3A;
+    color: white;
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.absence-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.absence-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.absence-item:last-child {
+    border-bottom: none;
+}
+
+.student-name {
+    font-weight: 500;
+    color: #1E2B3A;
+}
+
+.absence-details {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+}
+
+.absence-hours {
+    background: rgba(165, 28, 48, 0.1);
+    color: #A51C30;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.absence-reason {
+    color: #888;
+    font-size: 0.8rem;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+}
+
+.footer {
+    background: linear-gradient(135deg, #1E2B3A 0%, #2C3E4F 100%);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+    .stats-grid {
+        gap: 1rem;
+    }
+    .stat-card {
+        padding: 1rem;
+    }
+    .stat-card h2 {
+        font-size: 1.8rem;
+    }
+    .absence-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .absence-details {
+        margin-top: 0.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo h1 {
+        font-size: 1.2rem;
+    }
+    .nav ul {
+        gap: 1rem;
+    }
+}
