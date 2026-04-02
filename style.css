@@ -211,8 +211,9 @@ body {
 
 .schedule-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     padding: 0.75rem 0;
     border-bottom: 1px solid #F0F0F0;
 }
@@ -225,6 +226,11 @@ body {
     font-size: 0.85rem;
     color: #A51C30;
     font-weight: 600;
+    flex-shrink: 0;
+}
+
+.schedule-room {
+    flex-shrink: 0;
 }
 
 .schedule-subject {
@@ -1260,9 +1266,11 @@ body {
         font-size: 1rem;
         flex: 1;
         margin-right: 1rem;
-        white-space: nowrap;
+        min-width: 0;
+        /* ВАЖНО */
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .schedule-time {
         font-size: 0.95rem;
