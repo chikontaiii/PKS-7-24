@@ -18,7 +18,7 @@ function getActiveFilter() {
 
 function updateStats() {
     const totalPairs = allAbsences.length;
-    const totalHours = allAbsences.reduce((sum, a) => sum + (a.hours || 0), 0);
+    const totalHours = totalPairs * 2;
     document.getElementById('totalAbsences').innerText = totalPairs;
     document.getElementById('totalHours').innerText = totalHours;
     const avgHours = totalPairs > 0 ? (totalHours / totalPairs).toFixed(1) : 0;
