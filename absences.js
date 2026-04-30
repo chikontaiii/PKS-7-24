@@ -3,6 +3,7 @@ import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/fir
 
 let allAbsences = [];
 let allStudents = [];
+let observer;
 
 async function loadData() {
     const qAbs = query(collection(db, "absences"), orderBy("date", "desc"));
@@ -15,6 +16,7 @@ async function loadData() {
 
     updateStats();
     renderListView(getActiveFilter());
+    setupScrollObserver();
 }
 
 function getActiveFilter() {
@@ -22,13 +24,37 @@ function getActiveFilter() {
     return activeBtn ? activeBtn.dataset.filter : 'all';
 }
 
+// ========== ПЛАВНЫЙ СЧЁТЧИК ==========
+function animateNumber(elementId, newValue) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    const start = parseInt(el.innerText) || 0;
+    if (start === newValue) return;
+    const duration = 600;
+    const stepTime = 20;
+    const steps = duration / stepTime;
+    const increment = (newValue - start) / steps;
+    let current = start;
+    let step = 0;
+    const timer = setInterval(() => {
+        step++;
+        current += increment;
+        if (step >= steps) {
+            el.innerText = newValue;
+            clearInterval(timer);
+        } else {
+            el.innerText = Math.round(current);
+        }
+    }, stepTime);
+}
+
 function updateStats() {
     const totalPairs = allAbsences.length;
-    const totalHours = totalPairs * 2;
-    document.getElementById('totalAbsences').innerText = totalPairs;
-    document.getElementById('totalHours').innerText = totalHours;
+    const totalHours = allAbsences.reduce((sum, a) => sum + (a.hours || 0), 0);
     const avgHours = totalPairs > 0 ? (totalHours / totalPairs).toFixed(1) : 0;
-    document.getElementById('avgHours').innerText = avgHours;
+    animateNumber('totalAbsences', totalPairs);
+    animateNumber('totalHours', totalHours);
+    animateNumber('avgHours', parseFloat(avgHours));
 }
 
 function filterAbsencesByPeriod(period) {
@@ -49,24 +75,26 @@ function filterAbsencesByPeriod(period) {
 }
 
 function groupByDateAndStudent(absences) {
-    const groups = {}; // { date: { student: [pairs] } }
+    const groups = {};
     absences.forEach(a => {
         const date = a.date;
         const student = a.student;
         const pair = a.pair;
+        const hours = a.hours || pair * 2;
         if (!groups[date]) groups[date] = {};
         if (!groups[date][student]) groups[date][student] = [];
-        groups[date][student].push(pair);
+        groups[date][student].push({ pair, hours });
     });
-    // Преобразуем в массив для удобного рендеринга
     const result = [];
     Object.keys(groups).sort((a, b) => new Date(b) - new Date(a)).forEach(date => {
         const studentsList = [];
         Object.keys(groups[date]).forEach(student => {
-            const pairs = groups[date][student].sort((a, b) => a - b);
-            studentsList.push({ student, pairs });
+            const items = groups[date][student];
+            items.sort((x, y) => x.pair - y.pair);
+            const pairs = items.map(i => i.pair);
+            const totalHours = items.reduce((sum, i) => sum + i.hours, 0);
+            studentsList.push({ student, pairs, totalHours });
         });
-        // Сортируем студентов по имени
         studentsList.sort((a, b) => a.student.localeCompare(b.student, 'ru'));
         result.push({ date, students: studentsList });
     });
@@ -97,17 +125,16 @@ function renderListView(filter) {
         return;
     }
     container.innerHTML = grouped.map(day => `
-        <div class="absence-day">
+        <div class="absence-day fade-on-scroll">
             <div class="absence-day-header">${formatDate(day.date)}</div>
             <ul class="absence-list">
                 ${day.students.map(student => {
                     const pairsText = student.pairs.map(p => `${p}п`).join(', ');
-                    const hours = student.pairs.length * 2;
                     return `
                         <li class="absence-item">
                             <span class="student-name">${escapeHtml(student.student)}</span>
                             <div class="absence-details">
-                                <span class="absence-pair">${pairsText} (${hours} ч.)</span>
+                                <span class="absence-pair">${pairsText} (${student.totalHours} ч.)</span>
                             </div>
                         </li>
                     `;
@@ -115,9 +142,9 @@ function renderListView(filter) {
             </ul>
         </div>
     `).join('');
+    observeNewElements();
 }
 
-// ========== ЖУРНАЛ (уже группирует правильно, оставляем как есть) ==========
 function renderJournal() {
     const allDatesSet = new Set();
     allAbsences.forEach(a => allDatesSet.add(a.date));
@@ -141,15 +168,15 @@ function renderJournal() {
 
     let html = '<div class="journal-container"><table class="journal-table"><thead><tr><th class="student-col">Студент</th>';
     allDates.forEach(date => html += `<th>${formatDate(date)}</th>`);
-    html += '</tr></thead><tbody>';
+    html += '</table></thead><tbody>';
     allStudents.forEach(student => {
         html += `<tr><td class="student-col">${escapeHtml(student)}</td>`;
         allDates.forEach(date => {
             const pairs = journalData[student]?.[date];
             if (pairs && pairs.length) {
                 pairs.sort((a,b) => a - b);
-                const content = pairs.map(p => `${p}п`).join(', ');
-                html += `<td><span class="absence-mark">${content}</span></td>`;
+                const pairsText = pairs.map(p => `${p}п`).join(', ');
+                html += `<td><span class="absence-mark">${pairsText}</span></td>`;
             } else {
                 html += `<td><span class="empty-mark">—</span></td>`;
             }
@@ -158,6 +185,27 @@ function renderJournal() {
     });
     html += '</tbody></table></div>';
     document.getElementById('journalContainer').innerHTML = html;
+    observeNewElements();
+}
+
+// ========== НАБЛЮДАТЕЛЬ ЗА ПОЯВЛЕНИЕМ БЛОКОВ ==========
+function setupScrollObserver() {
+    observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+    observeNewElements();
+}
+
+function observeNewElements() {
+    if (!observer) return;
+    document.querySelectorAll('.fade-on-scroll:not(.observed)').forEach(el => {
+        observer.observe(el);
+        el.classList.add('observed');
+    });
 }
 
 // Переключение видов
@@ -177,7 +225,6 @@ document.getElementById('journalViewBtn').addEventListener('click', () => {
     renderJournal();
 });
 
-// Фильтры
 document.querySelectorAll('.filters button').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
