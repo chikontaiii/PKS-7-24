@@ -292,4 +292,4 @@ function escapeHtml(str) {
 loadStudentsToSelect();
 displayStudentList();
 loadStudentsForAbsence();
-loadWarningsForManagement();   // ← загружаем список предупреждений в админке
+loadWarningsForManagement(); // ← загружаем список предупреждений в админке
