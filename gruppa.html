@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ПК МУКР | Скачать список группы</title>
+    <link rel="icon" type="image/png" href="фото/IMG_1754.PNG">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+
+    <style>
+        /* ====================== ЗАГОЛОВОК ====================== */
+        
+        .page-header {
+            text-align: center;
+            margin: 4rem 0 2.5rem;
+            animation: pageFadeIn 0.5s ease-out;
+        }
+        
+        .page-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1E2B3A;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .page-header h2 span {
+            color: #A51C30;
+            font-style: italic;
+            font-weight: 400;
+        }
+        
+        .page-header p {
+            color: #888;
+            font-size: 0.9rem;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+        /* ====================== КНОПКИ СКАЧИВАНИЯ ====================== */
+        
+        .export-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin: 0 auto 5rem;
+            flex-wrap: wrap;
+            max-width: 620px;
+        }
+        
+        .btn-export {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 18px;
+            padding: 1.1rem 1.6rem;
+            cursor: pointer;
+            font-family: inherit;
+            color: #1E2B3A;
+            text-align: left;
+            text-decoration: none;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            flex: 1;
+            min-width: 260px;
+        }
+        
+        .btn-export:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.08);
+        }
+        
+        .btn-export:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn-export .btn-icon {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            transition: transform 0.25s;
+        }
+        
+        .btn-export:hover .btn-icon {
+            transform: scale(1.08) rotate(-3deg);
+        }
+        
+        .btn-export .btn-icon svg {
+            width: 26px;
+            height: 26px;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+        
+        .btn-export.btn-pdf .btn-icon {
+            background: rgba(165, 28, 48, 0.1);
+            color: #A51C30;
+        }
+        
+        .btn-export.btn-pdf:hover {
+            border-color: rgba(165, 28, 48, 0.3);
+            box-shadow: 0 18px 34px rgba(165, 28, 48, 0.15);
+        }
+        
+        .btn-export.btn-excel .btn-icon {
+            background: rgba(34, 139, 34, 0.1);
+            color: #1E7A2B;
+        }
+        
+        .btn-export.btn-excel:hover {
+            border-color: rgba(34, 139, 34, 0.3);
+            box-shadow: 0 18px 34px rgba(34, 139, 34, 0.15);
+        }
+        
+        .btn-export .btn-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.25;
+        }
+        
+        .btn-export .btn-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .btn-export .btn-sub {
+            font-size: 0.78rem;
+            color: #888;
+            letter-spacing: 0.3px;
+            margin-top: 3px;
+        }
+        /* ====================== АДАПТИВ ====================== */
+        
+        @media (max-width: 700px) {
+            .page-header {
+                margin: 3rem 0 2rem;
+            }
+            .page-header h2 {
+                font-size: 1.8rem;
+            }
+            .page-header p {
+                font-size: 0.78rem;
+            }
+            .export-actions {
+                flex-direction: column;
+                align-items: stretch;
+                max-width: 100%;
+                gap: 1rem;
+                margin-bottom: 3rem;
+            }
+            .btn-export {
+                min-width: 0;
+                width: 100%;
+                padding: 1rem 1.2rem;
+            }
+            .btn-export .btn-icon {
+                width: 44px;
+                height: 44px;
+            }
+            .btn-export .btn-title {
+                font-size: 0.95rem;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .btn-export .btn-sub {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ======================= ШАПКА ======================= -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <img src="фото/IMG_1754.PNG" alt="Логотип ПКС-7-24" class="site-logo">
+                <div class="logo-text">
+                    <h1>ПК МУКР <span>| Группа ПКС-7-24</span></h1>
+                    <p>Техники-Программисты</p>
+                </div>
+            </div>
+            <div class="student-info">
+                <div class="student-info-text">
+                    <div class="name">Молдошова Г.М.</div>
+                    <div class="role">Куратор группы</div>
+                    <div class="name">Курманбеков Ч.Э.</div>
+                    <div class="role">Староста группы</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======================= ОСНОВНОЙ КОНТЕНТ ======================= -->
+    <main class="container">
+
+        <div class="page-header">
+            <h2> </h2>
+        </div>
+
+
+        <div class="export-actions">
+
+            <a class="btn-export btn-pdf" href="resp/Список ПКС 7 24.pdf" download="Список ПКС 7-24.pdf">
+                <span class="btn-icon">
+                    <svg viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="9" y1="13" x2="15" y2="13"/>
+                        <line x1="9" y1="17" x2="15" y2="17"/>
+                    </svg>
+                </span>
+                <span class="btn-text">
+                    <span class="btn-title">Скачать в PDF</span>
+                <span class="btn-sub">Список группы ПКС-7-24</span>
+                </span>
+            </a>
+
+            <a class="btn-export btn-excel" href="resp/Список ПКС 7 24.xlsx" download="Список ПКС 7-24.xlsx">
+                <span class="btn-icon">
+                    <svg viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <path d="M8 13l3 4"/>
+                        <path d="M11 13l-3 4"/>
+                        <path d="M14 13h3"/>
+                        <path d="M14 17h3"/>
+                    </svg>
+                </span>
+                <span class="btn-text">
+                    <span class="btn-title">Скачать в Excel</span>
+                <span class="btn-sub">Список группы ПКС-7-24</span>
+                </span>
+            </a>
+
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-copyright">
+                    © 2026 ПК МУКР • Группа ПКС-7-24
+                </div>
+                <div class="footer-dev">
+                    <span class="dev-label">Developer:</span>
+                    <a href="https://www.instagram.com/ch1kosni?igsh=bHgxNm5nY3ZhY2h4&utm_source=qr" class="dev-name">chikosi</a>
+                    <span class="dev-heart">❤️</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
